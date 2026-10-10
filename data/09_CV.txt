@@ -1,0 +1,26 @@
+BRUCE BANNER
+Email: bruce.banner@gamma-labs.org | Phone: +1 (703) 555-0182 | Location: Arlington, VA
+GitHub: github.com/bbanner-ml | LinkedIn: linkedin.com/in/bruce-banner-gamma
+
+PROFESSIONAL SUMMARY
+Data Scientist and Machine Learning Engineer with 3 years of experience developing end-to-end predictive models, statistical algorithms, and scalable data processing pipelines. Proven expertise in scientific computing using Python, neural network frameworks, feature engineering, and relational database querying.
+
+WORK EXPERIENCE
+Machine Learning Specialist | Gamma Research Labs | Mar 2023 – Present
+• Architected supervised classification models using PyTorch and Scikit-learn to analyze high-dimensional physics sensor data, achieving a 94% prediction accuracy.
+• Cleaned, transformed, and aggregated multi-gigabyte tabular datasets using Pandas and NumPy for feature selection.
+• Querying complex relational schemas in PostgreSQL to extract structured training features and operational metrics.
+
+AI Research Assistant | Culver University Data Center | Aug 2021 – Feb 2023
+• Assisted in training baseline deep learning architectures for anomaly detection using TensorFlow and Python.
+• Maintained automated model evaluation pipelines and code repositories using Git in Linux environments.
+
+TECHNICAL SKILLS
+• Programming Languages: Python, SQL
+• Data Processing & Math: Pandas, NumPy, Scikit-learn
+• Deep Learning Frameworks: PyTorch, TensorFlow
+• Databases & Version Control: PostgreSQL, Postgres, Git
+
+EDUCATION
+Master of Science in Computational Physics | Culver University, 2021
+Bachelor of Science in Physics | Culver University, 2019

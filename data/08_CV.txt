@@ -1,0 +1,22 @@
+JORGE PICHOLAS
+Email: nicholado@icesi.com
+Phone: +55 67676767
+Location: EEUU Miami
+GitHub: github.com/nicholasitokawai
+LinkedIn: linkedin.com/in/kawaiiinicholas
+
+Summary
+DevOps Engineer with 7 years of experience managing Google cloud, automated containerization, and continuous integration/continuous deployment (CI/CD) pipelines.
+
+Cybersecurity Engineer 2 years of experience in Icesi datacenter
+
+Experience
+DevOps Cybersecurity Engineer
+the Office corp
+sept 1920 – Present
+• Architected cloud infrastructure on AWS using Terraform for Infrastructure as Code (IaC).
+• Containerized legacy applications using Docker and orchestrated multi-container deployments with Kubernetes.
+• Built automated CI/CD pipelines in Jenkins integrated with Git repositories.
+
+TECHNICAL SKILLS
+•Infrastructure & Automation: AWS, Docker, Kubernetes, Terraform, Jenkins, Git
