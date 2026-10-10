@@ -1,0 +1,15 @@
+ELLIOT ALDERSON
+Email: elliot.a@allsafe-sec.com | Phone: +1 (212) 555-0143 | Location: New York, NY
+GitHub: github.com/fsociety-dev | LinkedIn: linkedin.com/in/elliot-alderson
+
+PROFESSIONAL SUMMARY
+DevOps Engineer with 4 years of experience managing cloud infrastructure, automated containerization, and continuous integration/continuous deployment (CI/CD) pipelines.
+
+WORK EXPERIENCE
+DevOps Specialist | Allsafe Cyber Security | Feb 2022 – Present
+• Architected cloud infrastructure on AWS using Terraform for Infrastructure as Code (IaC).
+• Containerized legacy applications using Docker and orchestrated multi-container deployments with Kubernetes.
+• Built automated CI/CD pipelines in Jenkins integrated with Git repositories.
+
+TECHNICAL SKILLS
+• Infrastructure & Automation: AWS, Docker, Kubernetes, Terraform, Jenkins, Git

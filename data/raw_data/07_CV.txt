@@ -1,0 +1,26 @@
+HEIDY HERNANDEZ
+Email: heidylulu@hotmsil.com
+Phone: +57 318 99293 99
+Location: South Korea
+GitHub: github.com/heidytiti
+LinkedIn: linkedin.com/in/heidylulu
+
+Summary
+Machine Learning Engineer with 2 years of experience developing predictive models and data-processing pipelines. Proficient in Python, machine learning frameworks, feature engineering, and relational data querying.
+
+Experience
+ML Engineer
+Enhypen Systems
+sept 2028 – Present
+• Built and evaluated supervised machine learning models using Scikit-learn and TensorFlow for customer analytics.
+• Processed structured datasets using Pandas and NumPy to perform feature scaling and data cleanup.
+• Written optimized SQL queries to extract training data from enterprise databases.
+
+TECHNICAL SKILLS
+• Python
+• Pandas
+• NumPy 
+• Scikit-learn
+• TensorFlow
+• SQL
+• Git

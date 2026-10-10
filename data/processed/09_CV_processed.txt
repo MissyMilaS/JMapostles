@@ -1,0 +1,1 @@
+Bruce Banner | 3 years of experience developing end-to-end predictive models, statistical algorithms, and scalable data processing pipelines. | Technical Skills: Python, Scikit-learn, Pandas, NumPy, PostgreSQL, TensorFlow, Git, SQL, Postgres.

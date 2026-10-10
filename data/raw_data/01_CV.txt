@@ -1,0 +1,25 @@
+WEDNESDAY ADDAMS
+Email: wednesday.addams@nevermore.edu | Phone: +1 (555) 019-2834 | Location: Jericho, VT
+GitHub: github.com/waddams | LinkedIn: linkedin.com/in/wednesday-addams
+
+PROFESSIONAL SUMMARY
+Results-driven Full Stack Software Engineer with over 3 years of hands-on experience designing, developing, and deploying scalable web applications. Adept at building modern, responsive user interfaces as well as robust server-side APIs and relational database architectures.
+
+WORK EXPERIENCE
+Full Stack Developer | Nevermore Tech Solutions | Jan 2024 – Present
+• Engineered multi-tier web applications using React.js for client-side rendering and NodeJS for server-side logic.
+• Designed and optimized relational database schemas in Postgres, reducing complex query execution times by 35%.
+• Integrated RESTful APIs and maintained strict version control workflows using Git in agile team environments.
+
+Junior Web Developer | Addams Systems Inc. | Jun 2022 – Dec 2023
+• Assisted in migrating legacy frontends to modern component-based JavaScript architectures using JS and HTML5/CSS3.
+• Implemented authentication modules and middleware in Node.js services.
+
+TECHNICAL SKILLS
+• Programming Languages: JS, JavaScript, TypeScript, HTML5, CSS3
+• Frontend Frameworks: React.js, React, Redux
+• Backend & Environments: NodeJS, Express.js
+• Databases & Tools: Postgres, PostgreSQL, Git, REST APIs
+
+EDUCATION
+Bachelor of Science in Computer Science | Nevermore Academy, 2022
