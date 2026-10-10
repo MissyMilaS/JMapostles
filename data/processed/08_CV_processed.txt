@@ -1,0 +1,1 @@
+Jorge Picholas | 7 years of experience managing Google cloud, automated containerization, and continuous integration/continuous deployment (CI/CD) pipelines. | Technical Skills: AWS, Terraform, Docker, Kubernetes, Jenkins, Git.

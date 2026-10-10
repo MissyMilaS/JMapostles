@@ -1,0 +1,1 @@
+Peter Parker | 2 years of experience creating dynamic web applications. | Technical Skills: JavaScript, React.js, Redux, NodeJS, Express.js, Postgres, JS, Git, REST APIs.

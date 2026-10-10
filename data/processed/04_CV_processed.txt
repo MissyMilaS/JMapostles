@@ -1,0 +1,1 @@
+Elliot Alderson | 4 years of experience managing cloud infrastructure, automated containerization, and continuous integration/continuous deployment (CI/CD) pipelines. | Technical Skills: AWS, Terraform, Docker, Kubernetes, Jenkins, Git.
