@@ -1,5 +1,7 @@
 import unittest
 
+from pyformlang.finite_automaton import DeterministicFiniteAutomaton
+
 from src.classification import profile_automata
 
 
@@ -91,6 +93,33 @@ class TestProfilePatternRecognizer(unittest.TestCase):
                 self.assertEqual(
                     profile_automata.evaluate_all_profiles(qualifications), expected
                 )
+
+    def test_profile_automata_are_dfas(self):
+        self.assertEqual(len(profile_automata.PROFILE_AUTOMATA), 4)
+        self.assertTrue(
+            all(
+                isinstance(automaton, DeterministicFiniteAutomaton)
+                for automaton in profile_automata.PROFILE_AUTOMATA.values()
+            )
+        )
+
+    def test_profile_automata_reject_permutations_and_extra_qualifications(self):
+        self.assertEqual(
+            profile_automata.evaluate_full_stack(
+                ["REACT", "JAVASCRIPT", "NODE_JS", "POSTGRESQL", "GIT"]
+            ),
+            "REJECTED",
+        )
+        self.assertEqual(
+            profile_automata.evaluate_full_stack(
+                self.FULL_STACK + ["PYTHON"]
+            ),
+            "REJECTED",
+        )
+
+    def test_unknown_profile_is_reported(self):
+        with self.assertRaisesRegex(ValueError, "Unsupported professional profile"):
+            profile_automata.evaluate_profile(self.FULL_STACK, "UNKNOWN_PROFILE")
 
 
 if __name__ == "__main__":

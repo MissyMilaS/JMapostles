@@ -20,6 +20,8 @@ Technical Skills: Git, NodeJS, JS, Postgres, React.js."""
             result["normalized_skills"],
             ["JAVASCRIPT", "REACT", "NODE_JS", "POSTGRESQL", "GIT"],
         )
+        self.assertEqual(result["classification"], "ACCEPTED")
+        self.assertEqual(result["profile_results"]["FULL_STACK"], "ACCEPTED")
 
     def test_pipeline_sorts_for_machine_learning_profile(self):
         resume = """Mary Jane Watson
@@ -33,6 +35,8 @@ Technical Skills: Git, TensorFlow, Python, Pandas, Postgres."""
             result["normalized_skills"],
             ["PYTHON", "PANDAS", "TENSORFLOW", "POSTGRESQL", "GIT"],
         )
+        self.assertEqual(result["classification"], "ACCEPTED")
+        self.assertEqual(result["profile_results"]["ML_ENGINEER"], "ACCEPTED")
 
 
 if __name__ == "__main__":

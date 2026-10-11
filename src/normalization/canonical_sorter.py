@@ -18,6 +18,20 @@ _PROFILE_ORDER = {
         "POSTGRESQL",
         "GIT",
     ],
+    "DEVOPS_ENGINEER": [
+        "PYTHON",
+        "DOCKER",
+        "KUBERNETES",
+        "AWS",
+        "GIT",
+    ],
+    "DATA_ENGINEER": [
+        "PYTHON",
+        "SPARK",
+        "AIRFLOW",
+        "POSTGRESQL",
+        "GIT",
+    ],
 }
 
 
