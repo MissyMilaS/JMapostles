@@ -1,5 +1,9 @@
 from typing import Any, Dict, Optional
 
+from src.classification.profile_automata import (
+    evaluate_all_profiles,
+    normalize_profile_name,
+)
 from src.extraction.regex_extractor import stage_1_extract_resume_data
 from src.normalization.canonical_sorter import sort_canonical
 
@@ -7,10 +11,15 @@ from src.normalization.canonical_sorter import sort_canonical
 def process_resume_pipeline(
     raw_text: str, profile: Optional[str] = "FULL_STACK"
 ) -> Dict[str, Any]:
+    profile_name = normalize_profile_name(profile)
     extracted_data = stage_1_extract_resume_data(raw_text)
     extracted_skills = extracted_data["extracted_skills"]
+    normalized_skills = sort_canonical(extracted_skills, profile=profile_name)
+    profile_results = evaluate_all_profiles(normalized_skills)
 
     return {
         **extracted_data,
-        "normalized_skills": sort_canonical(extracted_skills, profile=profile),
+        "normalized_skills": normalized_skills,
+        "profile_results": profile_results,
+        "classification": profile_results[profile_name],
     }
