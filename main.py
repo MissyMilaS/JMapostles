@@ -1,22 +1,55 @@
-from pathlib import Path
+import streamlit as st
+import pandas as pd
 
-from src.extraction.reader import load_all_resumes
-from src.extraction.regex_extractor import process_resume_to_short_cv  # Tu extractor Regex
+from src.extraction.regex_extractor import process_resume_to_short_cv
 
-# 1. Cargar datos
-data = load_all_resumes("data/raw_data")
+st.set_page_config(page_title="ResumeLens - Extraction", layout="wide")
 
-# 2. Preparar la carpeta de salida
-processed_dir = Path("data/processed")
-processed_dir.mkdir(parents=True, exist_ok=True)
+st.title("ResumeLens: Formal Language-Based Resume Screening")
+st.subheader("Resume Information Extraction")
+st.divider()
 
-# 3. Procesar y guardar cada CV
-for file_name, content in data.items():
-    short_cv = process_resume_to_short_cv(content)
-    output_path = processed_dir / f"{Path(file_name).stem}_processed.txt"
-    output_path.write_text(short_cv["short_cv_text"], encoding="utf-8")
+# Two-column layout
+col_left, col_right = st.columns([1, 1], gap="large")
 
-    print(f"Archivo: {file_name}")
-    print(f"Processed CV guardado en: {output_path}")
-    print("Extracted Short CV:")
-    print(short_cv)
+# User input (left column)
+with col_left:
+    st.markdown("### Resume Input Text")
+
+    resume_input = st.text_area(label="Resume content:",value="",height=220,help="Candidate text to process using regular expressions.")
+
+    run_btn = st.button("Run Extraction", type="primary", use_container_width=True)
+
+# Processing and results (right column)
+with col_right:
+    st.markdown("### Extracted Information")
+
+    if run_btn or resume_input:
+        if not resume_input.strip():
+            st.warning("Please enter valid resume text.")
+        else:
+            result = process_resume_to_short_cv(resume_input)
+
+            st.success(f"Extraction successful for **{result['candidate_name']}**")
+
+            tab_summary, tab_skills = st.tabs(["Extracted Summary", "Technical Skills"])
+
+            with tab_summary:
+                st.markdown(f"**Candidate:** {result['candidate_name']}")
+                st.markdown(f"**Experience:** {result['experience']}")
+                st.markdown("**Generated summary (Short CV):**")
+                st.code(result["short_cv_text"], language="text")
+
+            with tab_skills:
+                st.markdown("**Identified technical skills:**")
+                skills_list = result["raw_skills"]
+
+                if skills_list:
+                    st.code(" | ".join(skills_list), language="text")
+
+                    skills_table = pd.DataFrame({"Skill": skills_list})
+                    st.dataframe(
+                        skills_table, use_container_width=True, hide_index=True
+                    )
+                else:
+                    st.warning("No technical skills were identified by the `skills` " "regular expression.")
