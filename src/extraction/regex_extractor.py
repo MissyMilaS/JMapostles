@@ -15,7 +15,16 @@ def extract_candidate_name(raw_text: str) -> str:
         return match.group(1).strip()
     
     lines = [line.strip() for line in raw_text.splitlines() if line.strip()]
-    return lines[0].title() if lines else "Unknown Candidate"
+    if not lines:
+        return "Unknown Candidate"
+
+    first_line = re.split(
+        r"\b(?:PROFESSIONAL\s+)?WORK\s+EXPERIENCE\b",
+        lines[0],
+        maxsplit=1,
+        flags=re.IGNORECASE,
+    )[0].strip()
+    return first_line.title() if first_line else "Unknown Candidate"
 
 
 def extract_contact_info(raw_text: str) -> Dict[str, str]:
@@ -26,7 +35,40 @@ def extract_contact_info(raw_text: str) -> Dict[str, str]:
 
 
 def extract_experience(raw_text: str) -> str:
-    match = re.search(PATTERNS["experience"], raw_text, re.IGNORECASE)
+    section_match = re.search(
+        r"\b(?:PROFESSIONAL\s+)?WORK\s+EXPERIENCE\b\s*:?",
+        raw_text,
+        re.IGNORECASE,
+    )
+    if section_match:
+        section_text = raw_text[section_match.end() :]
+        section_text = re.split(
+            r"\b(?:EDUCATION|TECHNICAL\s+SKILLS|SKILLS|PROJECTS|"
+            r"CERTIFICATIONS|CERTIFICATES|LANGUAGES|PROFESSIONAL\s+SUMMARY|SUMMARY)"
+            r"\s*:?\b",
+            section_text,
+            maxsplit=1,
+            flags=re.IGNORECASE,
+        )[0]
+        section_text = re.sub(
+            r"\s*([•▪●])\s*",
+            lambda match: f"\n{match.group(1)} ",
+            section_text,
+        )
+        section_lines = [line.rstrip() for line in section_text.splitlines()]
+
+        while section_lines and not section_lines[-1].strip():
+            section_lines.pop()
+
+        while section_lines and re.fullmatch(
+            r"[ \t]*[A-Z][A-Z0-9 &/()-]{1,40}:?[ \t]*", section_lines[-1]
+        ):
+            section_lines.pop()
+
+        if section_lines and any(line.strip() for line in section_lines):
+            return "\n".join(section_lines).strip()
+
+    match = re.search(experience, raw_text, re.IGNORECASE)
     if match:
         return match.group(1).strip()
     return "Experience not specified."
