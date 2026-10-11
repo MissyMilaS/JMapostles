@@ -17,6 +17,26 @@ The implementation is in `src/normalization/fst_normalizer.py`:
 `canonical_sorter.sort_canonical` orders normalized qualifications for a
 selected profile after this stage.
 
+## Integration with extraction
+
+`src/pipeline.py` connects Stage 1 to Stage 2 without changing the extraction
+module. `process_resume_pipeline(raw_text, profile)` calls
+`stage_1_extract_resume_data`, reads its `extracted_skills` list, and adds
+`normalized_skills` ordered for the selected profile to the returned candidate
+data.
+
+```python
+from src.pipeline import process_resume_pipeline
+
+result = process_resume_pipeline(resume_text, profile="FULL_STACK")
+print(result["extracted_skills"])
+print(result["normalized_skills"])
+```
+
+The integration depends on the Stage 1 extractor returning the
+`extracted_skills` field. End-to-end tests for `FULL_STACK` and `ML_ENGINEER`
+are in `tests/test_pipeline.py`.
+
 ## Character-level transducer design
 
 Each canonical qualification has its own `pyformlang.fst.FST`. Unlike a
