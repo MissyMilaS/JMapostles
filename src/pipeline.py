@@ -1,32 +1,25 @@
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from src.classification.profile_automata import (
-    evaluate_data_engineer,
-    evaluate_devops_engineer,
-    evaluate_full_stack,
-    evaluate_ml_engineer,
+    evaluate_all_profiles,
+    normalize_profile_name,
 )
 from src.extraction.regex_extractor import stage_1_extract_resume_data
 from src.normalization.canonical_sorter import sort_canonical
-from src.normalization.fst_normalizer import normalize_sequence
 
 
-_PROFILE_EVALUATORS = {
-    "FULL_STACK": evaluate_full_stack,
-    "ML_ENGINEER": evaluate_ml_engineer,
-    "DEVOPS_ENGINEER": evaluate_devops_engineer,
-    "DATA_ENGINEER": evaluate_data_engineer,
-}
+def process_resume_pipeline(
+    raw_text: str, profile: Optional[str] = "FULL_STACK"
+) -> Dict[str, Any]:
+    profile_name = normalize_profile_name(profile)
+    extracted_data = stage_1_extract_resume_data(raw_text)
+    extracted_skills = extracted_data["extracted_skills"]
+    normalized_skills = sort_canonical(extracted_skills, profile=profile_name)
+    profile_results = evaluate_all_profiles(normalized_skills)
 
-
-def analyze_resume(raw_text: str) -> Dict[str, Any]:
-    """Run extraction and profile analysis as distinct processing stages."""
-    result = stage_1_extract_resume_data(raw_text)
-    normalized = normalize_sequence(result["extracted_skills"])
-    result["normalized_skills"] = normalized
-    result["canonical_skills"] = sort_canonical(normalized, profile="FULL_STACK")
-    result["profile_evaluations"] = {
-        profile: evaluator(sort_canonical(normalized, profile=profile))
-        for profile, evaluator in _PROFILE_EVALUATORS.items()
+    return {
+        **extracted_data,
+        "normalized_skills": normalized_skills,
+        "profile_results": profile_results,
+        "classification": profile_results[profile_name],
     }
-    return result

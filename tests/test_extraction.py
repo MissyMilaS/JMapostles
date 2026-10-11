@@ -144,6 +144,31 @@ class TestInformationExtractor(unittest.TestCase):
                     regex_extractor.extract_experience_and_education(text), expected
                 )
 
+    def test_extract_experience_section(self):
+        experience_text = """Full Stack Developer | Nevermore Tech Solutions | Jan 2024 – Present
+• Engineered multi-tier web applications using React.js for client-side rendering and NodeJS for server-side logic.
+• Designed and optimized relational database schemas in Postgres, reducing complex query execution times by 35%.
+• Integrated RESTful APIs and maintained strict version control workflows using Git in agile team environments."""
+        resume = f"""Wednesday Addams
+WORK EXPERIENCE
+{experience_text}"""
+
+        self.assertEqual(regex_extractor.extract_experience(resume), experience_text)
+        processed_resume = regex_extractor.process_resume_to_short_cv(resume)
+        self.assertEqual(processed_resume["experience"], experience_text)
+
+    def test_extract_experience_section_from_single_line_resume(self):
+        resume = """Wednesday Addams WORK EXPERIENCE Full Stack Developer | Nevermore Tech Solutions | Jan 2024 – Present • Engineered multi-tier web applications using React.js for client-side rendering and NodeJS for server-side logic. • Designed and optimized relational database schemas in Postgres, reducing complex query execution times by 35%. • Integrated RESTful APIs and maintained strict version control workflows using Git in agile team environments."""
+        result = regex_extractor.process_resume_to_short_cv(resume)
+
+        self.assertEqual(result["candidate_name"], "Wednesday Addams")
+        self.assertNotEqual(result["experience"], "Experience not specified.")
+        self.assertIn("Full Stack Developer", result["experience"])
+        self.assertIn("Nevermore Tech Solutions", result["experience"])
+        self.assertIn("client-side rendering", result["experience"])
+        self.assertIn("Postgres", result["experience"])
+        self.assertIn("version control workflows using Git", result["experience"])
+
     def test_extract_all_qualifications(self):
         scenarios = (
             (
