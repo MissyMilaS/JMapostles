@@ -1,3 +1,4 @@
+import re
 from typing import Dict, Iterable, List, Optional
 
 from pyformlang.fst import FST
@@ -7,12 +8,18 @@ _TRANSDUCER_ALIASES = {
     "JAVASCRIPT": ("JS", "JavaScript"),
     "TYPESCRIPT": ("TS", "TypeScript"),
     "REACT": ("React.js", "ReactJS"),
+    "ANGULAR": ("Angular.js",),
+    "VUE": ("Vue.js",),
     "NODE_JS": ("Node", "NodeJS", "Node.js", "Node JS"),
+    "DJANGO": (),
+    "SPRING_BOOT": ("Spring Boot", "SpringBoot"),
     "POSTGRESQL": ("Postgres",),
     "MYSQL": (),
     "MONGODB": (),
-    "SQLITE": (),
     "SQL": (),
+    "SQLITE": (),
+    "NOSQL": ("No SQL",),
+    "REST_API": ("REST API", "REST APIs", "RESTful API", "RESTful APIs"),
     "PYTHON": (),
     "PANDAS": (),
     "NUMPY": (),
@@ -25,6 +32,8 @@ _TRANSDUCER_ALIASES = {
     "DOCKER": (),
     "KUBERNETES": (),
     "AWS": (),
+    "AZURE": (),
+    "GCP": (),
     "TERRAFORM": (),
     "JENKINS": (),
     "SPARK": (),
@@ -35,7 +44,7 @@ _TRANSDUCER_ALIASES = {
 
 
 def _input_symbol(qualification: str) -> str:
-    return qualification.strip().casefold()
+    return re.sub(r"\s+", " ", qualification.strip().casefold())
 
 
 def _build_transducer(canonical: str, aliases: Iterable[str]) -> FST:
@@ -46,8 +55,8 @@ def _build_transducer(canonical: str, aliases: Iterable[str]) -> FST:
     states_by_prefix = {"": "q0"}
     terminal_states = set()
     next_state_number = 1
-
     input_words = {_input_symbol(canonical), *(_input_symbol(alias) for alias in aliases)}
+
     for input_word in input_words:
         for index, character in enumerate(input_word):
             prefix = input_word[: index + 1]
@@ -56,9 +65,7 @@ def _build_transducer(canonical: str, aliases: Iterable[str]) -> FST:
                 next_state_number += 1
                 parent_state = states_by_prefix[input_word[:index]]
                 states_by_prefix[prefix] = next_state
-                transducer.add_transition(
-                    parent_state, character, next_state, []
-                )
+                transducer.add_transition(parent_state, character, next_state, [])
         terminal_states.add(states_by_prefix[input_word])
 
     for state in terminal_states:
@@ -73,15 +80,14 @@ QUALIFICATION_TRANSDUCERS: Dict[str, FST] = {
 }
 
 
-def normalize_qualification(qualification: str) -> Optional[str]:
+def normalize_qualification(qualification: Optional[str]) -> Optional[str]:
     if qualification is None:
         return None
 
-    token = str(qualification).strip()
-    if not token:
+    input_word = _input_symbol(str(qualification))
+    if not input_word:
         return None
 
-    input_word = _input_symbol(token)
     for transducer in QUALIFICATION_TRANSDUCERS.values():
         outputs = list(transducer.translate(input_word))
         if outputs:
@@ -90,7 +96,7 @@ def normalize_qualification(qualification: str) -> Optional[str]:
     return "UNKNOWN"
 
 
-def normalize_sequence(qualifications: Iterable[str]) -> List[str]:
+def normalize_sequence(qualifications: Optional[Iterable[str]]) -> List[str]:
     if qualifications is None:
         return []
 

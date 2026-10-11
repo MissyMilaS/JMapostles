@@ -25,6 +25,20 @@ class TestProfilePatternRecognizer(unittest.TestCase):
                     profile_automata.evaluate_full_stack(qualifications), expected
                 )
 
+    def test_evaluate_full_stack_with_alternative_technologies(self):
+        qualifications = [
+            "TYPESCRIPT",
+            "ANGULAR",
+            "DJANGO",
+            "NOSQL",
+            "REST_API",
+            "GIT",
+        ]
+
+        self.assertEqual(
+            profile_automata.evaluate_full_stack(qualifications), "ACCEPTED"
+        )
+
     def test_evaluate_ml_engineer(self):
         scenarios = (
             ("setUp24", self.ML_ENGINEER, "ACCEPTED"),

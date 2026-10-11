@@ -14,8 +14,18 @@ class TestQualificationNormalizer(unittest.TestCase):
             ("setUp12", "ReactJS", "REACT"),
             ("setUp12", "NodeJS", "NODE_JS"),
             ("setUp12", "Node.js", "NODE_JS"),
+            ("FullStack", "TypeScript", "TYPESCRIPT"),
+            ("FullStack", "Angular", "ANGULAR"),
+            ("FullStack", "Vue.js", "VUE"),
+            ("FullStack", "Django", "DJANGO"),
+            ("FullStack", "Spring Boot", "SPRING_BOOT"),
             ("setUp13", "Postgres", "POSTGRESQL"),
             ("setUp13", "PostgreSQL", "POSTGRESQL"),
+            ("FullStack", "MySQL", "MYSQL"),
+            ("FullStack", "MongoDB", "MONGODB"),
+            ("FullStack", "SQL", "SQL"),
+            ("FullStack", "NoSQL", "NOSQL"),
+            ("FullStack", "RESTful APIs", "REST_API"),
             ("setUp14", "sklearn", "SCIKIT_LEARN"),
             ("setUp14", "scikit learn", "SCIKIT_LEARN"),
             ("setUp14", "Scikit-learn", "SCIKIT_LEARN"),
@@ -59,6 +69,25 @@ class TestQualificationNormalizer(unittest.TestCase):
                 ["JAVASCRIPT", "REACT", "NODE_JS", "POSTGRESQL", "GIT"],
             ),
             (
+                "FullStack alternatives",
+                [
+                    "TypeScript",
+                    "Angular",
+                    "Spring Boot",
+                    "MongoDB",
+                    "REST APIs",
+                    "Git",
+                ],
+                [
+                    "TYPESCRIPT",
+                    "ANGULAR",
+                    "SPRING_BOOT",
+                    "MONGODB",
+                    "REST_API",
+                    "GIT",
+                ],
+            ),
+            (
                 "setUp17",
                 ["Python", "pandas", "sklearn", "TensorFlow", "Postgres", "Git"],
                 [
@@ -78,6 +107,29 @@ class TestQualificationNormalizer(unittest.TestCase):
                 self.assertEqual(
                     fst_normalizer.normalize_sequence(qualifications), expected
                 )
+
+    def test_normalize_canonical_tokens_idempotently(self):
+        canonical_skills = [
+            "JAVASCRIPT",
+            "TYPESCRIPT",
+            "REACT",
+            "ANGULAR",
+            "VUE",
+            "NODE_JS",
+            "DJANGO",
+            "SPRING_BOOT",
+            "POSTGRESQL",
+            "MYSQL",
+            "MONGODB",
+            "SQL",
+            "NOSQL",
+            "REST_API",
+            "GIT",
+        ]
+
+        self.assertEqual(
+            fst_normalizer.normalize_sequence(canonical_skills), canonical_skills
+        )
 
     def test_sort_canonical(self):
         scenarios = (
