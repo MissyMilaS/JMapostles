@@ -1,51 +1,50 @@
 import re
 from typing import Dict, List, Any
 
-experience = r'(\d+\+?\s+years?\s+of\s+experience[^\.\n]*\.)'
-skills = r'\b(JS|JavaScript|TypeScript|React\.js|React|Redux|NodeJS|Express\.js|Postgres|PostgreSQL|Git|REST APIs|Python|Pandas|NumPy|Scikit-learn|TensorFlow|SQL|AWS|Docker|Kubernetes|Terraform|Jenkins|Spark|Snowflake|Airflow|Kafka)\b'
-phone = r'\+?\d{1,3}?[-.\s]?\(?\d{2,4}\)?[-.\s]?\d{3,4}[-.\s]?\d{3,4}'
-email = r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'
+PATTERNS = {
+    "name": r'^\s*([A-Z][a-z]+(?:\s+[A-Z][a-z]+)+)',
+    "experience": r'(\d+\+?\s+years?\s+of\s+experience[^\.\n]*\.)',
+    "email": r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}',
+    "phone": r'\+?\d{1,3}?[-.\s]?\(?\d{2,4}\)?[-.\s]?\d{3,4}[-.\s]?\d{3,4}',
+    "skills": r'\b(JS|JavaScript|Javascript|React\.js|React|ReactJS|NodeJS|Node\.js|Postgres|PostgreSQL|Git|REST APIs|Python|Pandas|pandas|NumPy|Scikit-learn|sklearn|scikit learn|TensorFlow|Tensor Flow|PyTorch|Py Torch|SQL|AWS|Docker|Kubernetes|Terraform|Jenkins|Spark|Snowflake|Airflow|Kafka)\b'
+}
 
-def extract_name(raw_text: str) -> str:
+def extract_candidate_name(raw_text: str) -> str:
+    match = re.search(PATTERNS["name"], raw_text, re.MULTILINE)
+    if match:
+        return match.group(1).strip()
+    
     lines = [line.strip() for line in raw_text.splitlines() if line.strip()]
     return lines[0].title() if lines else "Unknown Candidate"
 
 
+def extract_contact_info(raw_text: str) -> Dict[str, str]:
+    email_match = re.search(PATTERNS["email"], raw_text)
+    phone_match = re.search(PATTERNS["phone"], raw_text)
+    
+    return {"email": email_match.group(0) if email_match else "Not provided","phone": phone_match.group(0) if phone_match else "Not provided"}
+
+
 def extract_experience(raw_text: str) -> str:
-    match = re.search(experience, raw_text, re.IGNORECASE)
+    match = re.search(PATTERNS["experience"], raw_text, re.IGNORECASE)
     if match:
         return match.group(1).strip()
     return "Experience not specified."
 
 
 def extract_raw_skills(raw_text: str) -> List[str]:
-    """Extrae todas las coincidencias de habilidades técnicas sin duplicados."""
-    matches = re.findall(skills, raw_text, re.IGNORECASE)
+    matches = re.findall(PATTERNS["skills"], raw_text)
     
-    # Preserva el orden original de aparición eliminando duplicados
     seen = set()
     unique_skills = []
     for skill in matches:
-        skill_upper = skill.strip()
-        if skill_upper.lower() not in seen:
-            seen.add(skill_upper.lower())
-            unique_skills.append(skill_upper)
+        skill_clean = skill.strip()
+        if skill_clean.lower() not in seen:
+            seen.add(skill_clean.lower())
+            unique_skills.append(skill_clean)
             
     return unique_skills
 
 
-def process_resume_to_short_cv(raw_text: str) -> Dict[str, Any]:
-    name = extract_name(raw_text)
-    experience = extract_experience(raw_text)
-    raw_skills = extract_raw_skills(raw_text)
-    
-    # Construir el formato textual del "CV Corto"
-    skills_str = ", ".join(raw_skills)
-    short_cv_text = f"{name} | {experience} | Technical Skills: {skills_str}."
-    
-    return {
-        "candidate_name": name,
-        "experience": experience,
-        "raw_skills": raw_skills,
-        "short_cv_text": short_cv_text
-    }
+def stage_1_extract_resume_data(raw_text: str) -> Dict[str, Any]:
+    return {"candidate_name": extract_candidate_name(raw_text),"contact_info": extract_contact_info(raw_text),"experience": extract_experience(raw_text),"extracted_skills": extract_raw_skills(raw_text)}
