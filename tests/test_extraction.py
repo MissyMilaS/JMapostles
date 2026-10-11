@@ -1,6 +1,7 @@
 import unittest
 
 from src.extraction import regex_extractor
+from src.pipeline import analyze_resume
 
 
 class TestInformationExtractor(unittest.TestCase):
@@ -169,6 +170,82 @@ class TestInformationExtractor(unittest.TestCase):
                 self.assertEqual(
                     regex_extractor.extract_all_qualifications(text), expected
                 )
+
+    def test_extract_full_stack_alternative_technologies(self):
+        resume = (
+            "JavaScript TypeScript React Angular Vue Node.js Django Spring Boot "
+            "SQL NoSQL PostgreSQL MySQL MongoDB REST APIs Git"
+        )
+        result = regex_extractor.stage_1_extract_resume_data(resume)
+
+        self.assertEqual(
+            set(result["extracted_skills"]),
+            {
+                "JavaScript",
+                "TypeScript",
+                "React",
+                "Angular",
+                "Vue",
+                "Node.js",
+                "Django",
+                "Spring Boot",
+                "SQL",
+                "NoSQL",
+                "PostgreSQL",
+                "MySQL",
+                "MongoDB",
+                "REST APIs",
+                "Git",
+            },
+        )
+        self.assertNotIn("canonical_skills", result)
+        analysis = analyze_resume(resume)
+        self.assertIn("REST_API", analysis["canonical_skills"])
+        self.assertIn("SPRING_BOOT", analysis["canonical_skills"])
+        self.assertEqual(
+            analysis["profile_evaluations"]["FULL_STACK"], "ACCEPTED"
+        )
+
+    def test_extracts_academics_experience_and_contact(self):
+        resume = """Wednesday Addams
+Contact: wednesday@addams.com | +1-555-0199
+LinkedIn: https://linkedin.com/in/wednesday
+EDUCATION
+B.S. in Computer Science
+WORK EXPERIENCE
+Full Stack Developer | Nevermore Tech Solutions | Jan 2024 – Present
+• Engineered multi-tier web applications using React.js for client-side rendering and NodeJS for server-side logic.
+• Designed and optimized relational database schemas in Postgres, reducing complex query execution times by 35%.
+• Integrated RESTful APIs and maintained strict version control workflows using Git in agile team environments.
+"""
+        result = regex_extractor.stage_1_extract_resume_data(resume)
+
+        self.assertEqual(
+            result["contact_info"],
+            {
+                "emails": ["wednesday@addams.com"],
+                "phones": ["+1-555-0199"],
+                "urls": ["https://linkedin.com/in/wednesday"],
+            },
+        )
+        self.assertEqual(result["education"]["degree"], "B.S. in Computer Science")
+        self.assertEqual(result["years_experience"], 0)
+        self.assertIn("Full Stack Developer", result["experience"])
+        self.assertEqual(result["programming_languages"], [])
+        self.assertEqual(result["frameworks"], ["React.js", "NodeJS"])
+        self.assertEqual(result["databases"], ["Postgres"])
+        self.assertEqual(result["tools"], ["RESTful APIs", "Git"])
+        self.assertIn("Full Stack Developer | Nevermore Tech Solutions", result["experience"])
+        self.assertIn("client-side rendering", result["experience"])
+        self.assertIn("35%", result["experience"])
+
+    def test_stage_one_only_extracts_without_normalizing_or_classifying(self):
+        result = regex_extractor.stage_1_extract_resume_data("JavaScript React Node.js")
+
+        self.assertEqual(result["programming_languages"], ["JavaScript"])
+        self.assertEqual(result["frameworks"], ["React", "Node.js"])
+        self.assertNotIn("normalized_skills", result)
+        self.assertNotIn("profile_evaluations", result)
 
 
 if __name__ == "__main__":
