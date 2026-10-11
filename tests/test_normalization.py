@@ -1,5 +1,7 @@
 import unittest
 
+from pyformlang.fst import FST
+
 from src.normalization import canonical_sorter, fst_normalizer
 
 
@@ -20,7 +22,7 @@ class TestQualificationNormalizer(unittest.TestCase):
             ("setUp14", "Tensor Flow", "TENSORFLOW"),
             ("setUp14", "TensorFlow", "TENSORFLOW"),
             ("setUp15", "Git", "GIT"),
-            ("setUp15", "github", "GIT"),
+            ("setUp15", "github", "GITHUB"),
         )
 
         for scenario, qualification, expected in scenarios:
@@ -28,6 +30,21 @@ class TestQualificationNormalizer(unittest.TestCase):
                 self.assertEqual(
                     fst_normalizer.normalize_qualification(qualification), expected
                 )
+
+    def test_qualification_transducers_are_pyformlang_fsts(self):
+        self.assertTrue(fst_normalizer.QUALIFICATION_TRANSDUCERS)
+        self.assertTrue(
+            all(
+                isinstance(transducer, FST)
+                for transducer in fst_normalizer.QUALIFICATION_TRANSDUCERS.values()
+            )
+        )
+
+        javascript = fst_normalizer.QUALIFICATION_TRANSDUCERS["JAVASCRIPT"]
+        self.assertEqual(list(javascript.translate("js")), [["JAVASCRIPT"]])
+        react = fst_normalizer.QUALIFICATION_TRANSDUCERS["REACT"]
+        self.assertEqual(list(react.translate("react")), [["REACT"]])
+        self.assertEqual(list(react.translate("react.js")), [["REACT"]])
 
     def test_normalize_unknown_qualification(self):
         with self.subTest(scenario="setUp19"):
