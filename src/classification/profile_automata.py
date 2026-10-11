@@ -41,7 +41,7 @@ _PROFILE_STAGES = {
 }
 _KNOWN_TOKENS = set().union(
     *(stage for stages in _PROFILE_STAGES.values() for stage in stages)
-) | {"REST_API"}
+) | {"REST_API", "GITHUB"}
 
 
 def _build_profile_automaton(
@@ -81,13 +81,38 @@ _AUTOMATA = {
     )
     for profile, stages in _PROFILE_STAGES.items()
 }
+PROFILE_AUTOMATA = _AUTOMATA
+
+_PROFILE_ALIASES = {
+    "FULL_STACK": "FULL_STACK",
+    "FULL_STACK_DEVELOPER": "FULL_STACK",
+    "ML_ENGINEER": "ML_ENGINEER",
+    "MACHINE_LEARNING_ENGINEER": "ML_ENGINEER",
+    "DEVOPS_ENGINEER": "DEVOPS_ENGINEER",
+    "SOFTWARE_ENGINEER": "DEVOPS_ENGINEER",
+    "DATA_ENGINEER": "DATA_ENGINEER",
+}
+
+
+def normalize_profile_name(profile: str | None) -> str:
+    normalized = (profile or "FULL_STACK").strip().upper().replace("-", "_").replace(" ", "_")
+    try:
+        return _PROFILE_ALIASES[normalized]
+    except KeyError as error:
+        raise ValueError(f"Unsupported professional profile: {profile}") from error
 
 
 def _evaluate_profile(qualifications: Iterable[str], profile: str) -> str:
-    sequence = list(qualifications)
+    sequence = ["GIT" if token == "GITHUB" else token for token in qualifications]
+    sequence = list(dict.fromkeys(sequence))
     if not sequence or any(token not in _KNOWN_TOKENS for token in sequence):
         return REJECTED
     return ACCEPTED if _AUTOMATA[profile].accepts(sequence) else REJECTED
+
+
+def evaluate_profile(qualifications: Iterable[str], profile: str) -> str:
+    profile_name = normalize_profile_name(profile)
+    return _evaluate_profile(qualifications, profile_name)
 
 
 def evaluate_full_stack(qualifications: Iterable[str]) -> str:

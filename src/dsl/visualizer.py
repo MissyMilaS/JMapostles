@@ -15,8 +15,63 @@ def _profile_filename(name: str, suffix: str) -> str:
     return f"{slug or 'candidate'}_profile.{suffix}"
 
 
-def generate_html_visualization(profile: Any) -> Path:
-    _require_profile(profile)
+def _output_path(profile: Any, suffix: str, output_dir: str | Path | None) -> Path:
+    directory = Path(output_dir) if output_dir is not None else Path.cwd()
+    directory.mkdir(parents=True, exist_ok=True)
+    return directory / _profile_filename(profile.name, suffix)
+
+
+def _resume_html(profile: Any) -> str:
+    contact = profile.contact
+    experience = "".join(
+        "<tr><td>{}</td><td>{}</td></tr>".format(
+            html.escape(entry.role), entry.years
+        )
+        for entry in (profile.experience.entries if profile.experience else [])
+    )
+    skills = "".join(
+        f'<li class="skill-tag">{html.escape(skill)}</li>'
+        for skill in profile.skills.skills
+    )
+    evaluations = "".join(
+        '<li class="status {}"><span>{}</span><strong>{}</strong></li>'.format(
+            "accepted" if str(item.status) == "ACCEPTED" else "rejected",
+            html.escape(str(item.profile).replace("_", " ").title()),
+            html.escape(str(item.status)),
+        )
+        for item in profile.classifications.evaluations
+    )
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{html.escape(profile.name)} - ResumeLens</title>
+  <style>
+    body {{ font: 16px/1.5 system-ui, sans-serif; margin: 2rem auto; max-width: 900px; padding: 0 1rem; color: #202938; }}
+    h1, h2 {{ color: #152238; }}
+    section {{ border-top: 1px solid #d9e0e8; margin-top: 1.5rem; padding-top: 1rem; }}
+    .skills {{ display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; padding: 0; }}
+    .skill-tag {{ background: #e8eef8; border-radius: 1rem; padding: .25rem .75rem; }}
+    .status {{ display: flex; justify-content: space-between; max-width: 25rem; padding: .5rem; }}
+    .accepted strong {{ color: #187044; }} .rejected strong {{ color: #596273; }}
+    table {{ border-collapse: collapse; width: 100%; }} th, td {{ border: 1px solid #d9e0e8; padding: .5rem; text-align: left; }}
+  </style>
+</head>
+<body>
+  <main>
+    <h1>{html.escape(profile.name)}</h1>
+    <section><h2>Contact</h2><p>Email: {html.escape(contact.email)}</p><p>Phone: {html.escape(contact.phone)}</p></section>
+    <section><h2>Experience</h2><table><thead><tr><th>Role</th><th>Years</th></tr></thead><tbody>{experience}</tbody></table></section>
+    <section><h2>Normalized skills</h2><ul class="skills">{skills}</ul></section>
+    <section><h2>Profile classification</h2><ul>{evaluations}</ul></section>
+  </main>
+</body>
+</html>
+"""
+
+
+def _legacy_html(profile: Any) -> str:
     contact = profile.contact
     education = "".join(
         f"<li>{html.escape(record.degree)}</li>"
@@ -39,7 +94,7 @@ def generate_html_visualization(profile: Any) -> Path:
     )
     phone = getattr(contact, "phone", None)
     phone_html = f"<p>Phone: {html.escape(phone)}</p>" if phone else ""
-    document = f"""<!doctype html>
+    return f"""<!doctype html>
 <html lang="en">
 <head><meta charset="utf-8"><title>{html.escape(profile.name)} - Resume</title></head>
 <body>
@@ -54,13 +109,29 @@ def generate_html_visualization(profile: Any) -> Path:
 </body>
 </html>
 """
-    output_path = Path(_profile_filename(profile.name, "html"))
+
+
+def generate_html_visualization(
+    profile: Any, output_dir: str | Path | None = None
+) -> Path:
+    _require_profile(profile)
+    document = (
+        _resume_html(profile)
+        if hasattr(profile, "classifications")
+        else _legacy_html(profile)
+    )
+    output_path = _output_path(profile, "html", output_dir)
     output_path.write_text(document, encoding="utf-8")
     return output_path
 
 
-def generate_markdown_visualization(profile: Any) -> Path:
+def generate_markdown_visualization(
+    profile: Any, output_dir: str | Path | None = None
+) -> Path:
     _require_profile(profile)
+    if hasattr(profile, "classifications"):
+        return _generate_resume_markdown(profile, output_dir)
+
     contact = profile.contact
     lines = [
         f"# {profile.name}",
@@ -102,6 +173,36 @@ def generate_markdown_visualization(profile: Any) -> Path:
         f"- {item.profile}: **{item.status}**" for item in profile.evaluations
     )
 
-    output_path = Path(_profile_filename(profile.name, "md"))
+    output_path = _output_path(profile, "md", output_dir)
+    output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return output_path
+
+
+def _generate_resume_markdown(profile: Any, output_dir: str | Path | None) -> Path:
+    lines = [
+        f"# {profile.name}",
+        "",
+        "## Contact",
+        f"- Email: {profile.contact.email}",
+        f"- Phone: {profile.contact.phone}",
+        "",
+        "## Experience",
+        "| Role | Years |",
+        "| --- | ---: |",
+    ]
+    if profile.experience:
+        lines.extend(
+            f"| {entry.role} | {entry.years} |"
+            for entry in profile.experience.entries
+        )
+    lines.extend(["", "## Normalized skills"])
+    lines.extend(f"- {skill}" for skill in profile.skills.skills)
+    lines.extend(["", "## Profile classification"])
+    lines.extend(
+        f"- {item.profile}: **{item.status}**"
+        for item in profile.classifications.evaluations
+    )
+
+    output_path = _output_path(profile, "md", output_dir)
     output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return output_path
