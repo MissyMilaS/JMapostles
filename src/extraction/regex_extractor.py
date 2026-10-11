@@ -3,43 +3,15 @@ from typing import Any, Dict, List, Pattern
 
 
 PATTERNS = {
-    "name": re.compile(
-        r"^\s*([A-Z][A-Za-z0-9'’-]*(?:[ \t]+[A-Z][A-Za-z0-9'’-]*)+)",
-        re.MULTILINE,
-    ),
+    "name": re.compile(r"^\s*([A-Z][A-Za-z0-9'’-]*(?:[ \t]+[A-Z][A-Za-z0-9'’-]*)+)",re.MULTILINE),
     "email": re.compile(r"[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}", re.IGNORECASE),
     "phone": re.compile(r"(?<!\w)\+?\d{1,3}(?:[\s().-]*\d){7,14}(?!\w)"),
-    "url": re.compile(
-        r"(?i)(?<![\w@])(?:https?://|www\.)[^\s|,<>]+|"
-        r"(?<![\w@])(?:github\.com/[A-Za-z0-9_.%-]+|"
-        r"linkedin\.com/(?:in|company)/[A-Za-z0-9_.%-]+)"
-    ),
-    "programming_languages": re.compile(
-        r"\b(?:JavaScript|Javascript|(?<![\w.])JS(?![\w.])|TypeScript|TS|Python|Java|"
-        r"C\+\+|C#|Go|Golang|Ruby|PHP|Kotlin|Swift|Rust|Scala|R)\b",
-        re.IGNORECASE,
-    ),
-    "frameworks": re.compile(
-        r"\b(?:Spring\s+Boot|React\.js|ReactJS|React|Angular\.js|Angular|"
-        r"Vue\.js|Vue|Node\.js|NodeJS|Express\.js|Express|Django|Flask|"
-        r"FastAPI|Laravel|Rails|ASP\.NET|\.NET)\b",
-        re.IGNORECASE,
-    ),
-    "databases": re.compile(
-        r"\b(?:Microsoft SQL Server|PostgreSQL|Postgres|MySQL|MongoDB|NoSQL|SQL|"
-        r"SQLite|Redis|Oracle|Cassandra|DynamoDB|MariaDB)\b",
-        re.IGNORECASE,
-    ),
-    "ml_libraries": re.compile(
-        r"\b(?:Scikit-learn|scikit\s+learn|sklearn|TensorFlow|Tensor\s+Flow|"
-        r"PyTorch|Py\s+Torch|Pandas|NumPy|Keras|OpenCV|Hugging\s*Face|XGBoost|SciPy)\b",
-        re.IGNORECASE,
-    ),
-    "tools": re.compile(
-        r"\b(?:RESTful\s+APIs?|REST\s+APIs?|GitHub|GitLab|Bitbucket|Git|Docker|"
-        r"Kubernetes|Terraform|Jenkins|AWS|Azure|GCP|Spark|Snowflake|Airflow|Kafka)\b",
-        re.IGNORECASE,
-    ),
+    "url": re.compile(r"(?i)(?<![\w@])(?:https?://|www\.)[^\s|,<>]+|"r"(?<![\w@])(?:github\.com/[A-Za-z0-9_.%-]+|"r"linkedin\.com/(?:in|company)/[A-Za-z0-9_.%-]+)"),
+    "programming_languages": re.compile(r"\b(?:JavaScript|Javascript|(?<![\w.])JS(?![\w.])|TypeScript|TS|Python|Java|"r"C\+\+|C#|Go|Golang|Ruby|PHP|Kotlin|Swift|Rust|Scala|R)\b",re.IGNORECASE),
+    "frameworks": re.compile(r"\b(?:Spring\s+Boot|React\.js|ReactJS|React|Angular\.js|Angular|"r"Vue\.js|Vue|Node\.js|NodeJS|Express\.js|Express|Django|Flask|"r"FastAPI|Laravel|Rails|ASP\.NET|\.NET)\b",re.IGNORECASE),
+    "databases": re.compile(r"\b(?:Microsoft SQL Server|PostgreSQL|Postgres|MySQL|MongoDB|NoSQL|SQL|"r"SQLite|Redis|Oracle|Cassandra|DynamoDB|MariaDB)\b",re.IGNORECASE),
+    "ml_libraries": re.compile(r"\b(?:Scikit-learn|scikit\s+learn|sklearn|TensorFlow|Tensor\s+Flow|"r"PyTorch|Py\s+Torch|Pandas|NumPy|Keras|OpenCV|Hugging\s*Face|XGBoost|SciPy)\b",re.IGNORECASE),
+    "tools": re.compile(r"\b(?:RESTful\s+APIs?|REST\s+APIs?|GitHub|GitLab|Bitbucket|Git|Docker|"r"Kubernetes|Terraform|Jenkins|AWS|Azure|GCP|Spark|Snowflake|Airflow|Kafka)\b",re.IGNORECASE),
     "qualifications": re.compile(
         r"\b(?:Microsoft SQL Server|Spring\s+Boot|React\.js|ReactJS|Angular\.js|Vue\.js|"
         r"Node\.js|Express\.js|ASP\.NET|PostgreSQL|Scikit-learn|scikit\s+learn|"
@@ -52,49 +24,14 @@ PATTERNS = {
         r"Kubernetes|Terraform|Jenkins|AWS|Azure|GCP|Spark|Snowflake|Airflow|Kafka)\b",
         re.IGNORECASE,
     ),
-    "degree": re.compile(
-        r"\b(?:B\.S\.|B\.A\.|M\.S\.|M\.A\.|Ph\.D\.|Doctorate|Doctoral|"
-        r"Master(?:'s)?|Bachelor(?:'s)?|Associate(?:'s)?|Licenciatura|Tecn[oó]logo)"
-        r"(?:[ \t]+(?:degree[ \t]+)?(?:of|in|de|en)[ \t]+"
-        r"[A-Za-z][A-Za-z&./'-]*(?:[ \t]+[A-Za-z][A-Za-z&./'-]*){0,5})?",
-        re.IGNORECASE,
-    ),
-    "experience_years": re.compile(
-        r"\b(\d{1,2}|one|two|three|four|five|six|seven|eight|nine|ten|"
-        r"eleven|twelve)\+?\s+years?\s+(?:of\s+)?experience\b",
-        re.IGNORECASE,
-    ),
+    "degree": re.compile(r"\b(?:B\.S\.|B\.A\.|M\.S\.|M\.A\.|Ph\.D\.|Doctorate|Doctoral|"r"Master(?:'s)?|Bachelor(?:'s)?|Associate(?:'s)?|Licenciatura|Tecn[oó]logo)"r"(?:[ \t]+(?:degree[ \t]+)?(?:of|in|de|en)[ \t]+"r"[A-Za-z][A-Za-z&./'-]*(?:[ \t]+[A-Za-z][A-Za-z&./'-]*){0,5})?",re.IGNORECASE),
+    "experience_years": re.compile(r"\b(\d{1,2}|one|two|three|four|five|six|seven|eight|nine|ten|"r"eleven|twelve)\+?\s+years?\s+(?:of\s+)?experience\b",re.IGNORECASE),
 }
 
-_NUMBER_WORDS = {
-    "one": 1,
-    "two": 2,
-    "three": 3,
-    "four": 4,
-    "five": 5,
-    "six": 6,
-    "seven": 7,
-    "eight": 8,
-    "nine": 9,
-    "ten": 10,
-    "eleven": 11,
-    "twelve": 12,
-}
-_SECTION_HEADING = re.compile(
-    r"\b(?:WORK\s+EXPERIENCE|PROFESSIONAL\s+EXPERIENCE|EXPERIENCE|"
-    r"EDUCATION|ACADEMIC\s+BACKGROUND|TECHNICAL\s+SKILLS|SKILLS|"
-    r"PROJECTS|CERTIFICATIONS|CERTIFICATES|LANGUAGES|"
-    r"PROFESSIONAL\s+SUMMARY|SUMMARY)\b\s*:?",
-    re.IGNORECASE,
-)
-_EXPERIENCE_HEADING = re.compile(
-    r"\b(?:WORK\s+EXPERIENCE|PROFESSIONAL\s+EXPERIENCE|EXPERIENCE)\b\s*:?",
-    re.IGNORECASE,
-)
-_EDUCATION_HEADING = re.compile(
-    r"\b(?:EDUCATION|ACADEMIC\s+BACKGROUND)\b\s*:?",
-    re.IGNORECASE,
-)
+_NUMBER_WORDS = {"one": 1,"two": 2,"three": 3,"four": 4,"five": 5,"six": 6,"seven": 7,"eight": 8,"nine": 9,"ten": 10,"eleven": 11,"twelve": 12}
+_SECTION_HEADING = re.compile(r"\b(?:WORK\s+EXPERIENCE|PROFESSIONAL\s+EXPERIENCE|EXPERIENCE|"r"EDUCATION|ACADEMIC\s+BACKGROUND|TECHNICAL\s+SKILLS|SKILLS|"r"PROJECTS|CERTIFICATIONS|CERTIFICATES|LANGUAGES|"r"PROFESSIONAL\s+SUMMARY|SUMMARY)\b\s*:?",re.IGNORECASE)
+_EXPERIENCE_HEADING = re.compile(r"\b(?:WORK\s+EXPERIENCE|PROFESSIONAL\s+EXPERIENCE|EXPERIENCE)\b\s*:?",re.IGNORECASE)
+_EDUCATION_HEADING = re.compile(r"\b(?:EDUCATION|ACADEMIC\s+BACKGROUND)\b\s*:?",re.IGNORECASE)
 
 
 def _unique_matches(pattern: Pattern[str], raw_text: str) -> List[str]:
@@ -147,11 +84,7 @@ def extract_candidate_name(raw_text: str) -> str:
 
 
 def extract_contact_info(raw_text: str) -> Dict[str, List[str]]:
-    return {
-        "emails": _unique_matches(PATTERNS["email"], raw_text),
-        "phones": _unique_matches(PATTERNS["phone"], raw_text),
-        "urls": _unique_matches(PATTERNS["url"], raw_text),
-    }
+    return {"emails": _unique_matches(PATTERNS["email"], raw_text),"phones": _unique_matches(PATTERNS["phone"], raw_text),"urls": _unique_matches(PATTERNS["url"], raw_text)}
 
 
 def extract_programming_languages(raw_text: str) -> List[str]:
@@ -189,10 +122,7 @@ def extract_experience_and_education(raw_text: str) -> Dict[str, Any]:
     if years_match:
         value = years_match.group(1).casefold()
         years = int(value) if value.isdigit() else _NUMBER_WORDS[value]
-    return {
-        "degree": degree_match.group(0).strip(" \t.,;") if degree_match else None,
-        "years_experience": years,
-    }
+    return {"degree": degree_match.group(0).strip(" \t.,;") if degree_match else None,"years_experience": years}
 
 
 def extract_experience(raw_text: str) -> str:
@@ -216,10 +146,7 @@ def stage_1_extract_resume_data(raw_text: str) -> Dict[str, Any]:
     education_section = _extract_section(raw_text, _EDUCATION_HEADING)
     experience_details = extract_experience_and_education(raw_text)
     skills = extract_all_qualifications(raw_text)
-    return {
-        "candidate_name": extract_candidate_name(raw_text),
-        "contact_info": extract_contact_info(raw_text),
-        "education": {
+    return {"candidate_name": extract_candidate_name(raw_text),"contact_info": extract_contact_info(raw_text),"education": {
             "degree": experience_details["degree"],
             "section": education_section,
         },
@@ -236,15 +163,9 @@ def stage_1_extract_resume_data(raw_text: str) -> Dict[str, Any]:
 
 
 def process_resume_to_short_cv(raw_text: str) -> Dict[str, Any]:
-    """Return the extracted resume data with a concise readable summary."""
     result = stage_1_extract_resume_data(raw_text)
     contact = result["contact_info"]
     skills = ", ".join(result["extracted_skills"]) or "None identified"
-    result["short_cv_text"] = (
-        f"{result['candidate_name']} | {result['experience']} | "
-        f"Technical Skills: {skills}."
-    )
-    result["contact_summary"] = ", ".join(
-        contact[key][0] for key in ("emails", "phones") if contact[key]
-    ) or "Contact information not provided."
+    result["short_cv_text"] = (f"{result['candidate_name']} | {result['experience']} | "f"Technical Skills: {skills}.")
+    result["contact_summary"] = ", ".join(contact[key][0] for key in ("emails", "phones") if contact[key]) or "Contact information not provided."
     return result

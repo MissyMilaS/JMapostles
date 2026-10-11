@@ -26,10 +26,5 @@ def process_resume_pipeline(
 
 
 def analyze_resume(raw_text: str) -> Dict[str, Any]:
-    """Compatibility wrapper exposing the earlier analysis result field names."""
     result = process_resume_pipeline(raw_text)
-    return {
-        **result,
-        "canonical_skills": result["normalized_skills"],
-        "profile_evaluations": result["profile_results"],
-    }
+    return {**result,"canonical_skills": result["normalized_skills"],"profile_evaluations": result["profile_results"]}
