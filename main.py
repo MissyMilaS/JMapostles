@@ -247,7 +247,7 @@ with st.sidebar:
     st.markdown("### Workflow")
 
     stages = [
-        ("01", "Extraction", "Find résumé information."),
+        ("01", "Extraction", "Find resume information."),
         ("02", "Normalization", "Standardize qualifications."),
         ("03", "Classification", "Recognize profile patterns."),
         ("04", "Validation", "Grammar validation pending."),
@@ -316,7 +316,7 @@ st.markdown(
     """
     <div class="eyebrow">INTELLIGENT RESUME ANALYSIS</div>
     <div class="hero-title">
-        Understand every <span>résumé.</span>
+        Understand every <span>resume.</span>
     </div>
     <div class="hero-description">
         Extract information, normalize qualifications, and recognize
@@ -339,11 +339,11 @@ with st.container(border=True):
         left, right = st.columns([1.45, 1], gap="large")
 
         with left:
-            st.markdown("### Upload résumé")
+            st.markdown("### Upload resume")
 
             st.markdown(
                 '<p class="section-description">'
-                "Upload a TXT file or paste the résumé content below."
+                "Upload a TXT file or paste the resume content below."
                 "</p>",
                 unsafe_allow_html=True,
             )
@@ -355,10 +355,10 @@ with st.container(border=True):
             )
 
             resume_input = st.text_area(
-                "Résumé content",
+                "RResume content",
                 height=220,
                 placeholder=(
-                    "Paste the résumé text here...\n\n"
+                    "Paste the resume text here...\n\n"
                     "Example: Python, JavaScript, React, Node.js..."
                 ),
                 help=(
@@ -394,7 +394,7 @@ with st.container(border=True):
             st.write("")
 
             submitted = st.form_submit_button(
-                "Analyze résumé  →",
+                "Analyze resume  →",
                 type="primary",
                 use_container_width=True,
             )
@@ -417,7 +417,7 @@ if submitted:
             else:
                 st.warning(
                     "The uploaded TXT file is empty. "
-                    "Please provide résumé content."
+                    "Please provide resume content."
                 )
                 st.stop()
 
@@ -430,11 +430,11 @@ if submitted:
 
     if not text_to_process:
         st.warning(
-            "Enter résumé text or upload a TXT file before processing."
+            "Enter resume text or upload a TXT file before processing."
         )
     else:
         try:
-            with st.spinner("Analyzing résumé..."):
+            with st.spinner("Analyzing resume..."):
                 result = process_resume_pipeline(
                     text_to_process,
                     profile=selected_profile,
@@ -443,11 +443,11 @@ if submitted:
             st.session_state["resume_result"] = result
             st.session_state["resume_profile"] = selected_profile
 
-            st.success("Résumé analysis completed successfully.")
+            st.success("Resume analysis completed successfully.")
 
         except Exception:
             st.error(
-                "The résumé could not be processed. "
+                "The resume could not be processed. "
                 "Check the terminal for the technical error details."
             )
             st.exception(__import__("sys").exc_info()[1])
@@ -621,20 +621,3 @@ if "resume_result" in st.session_state:
             "matches a formal pattern. It is not a candidate ranking "
             "or a hiring decision."
         )
-
-
-# =========================================================
-# PIE DE PÁGINA
-# =========================================================
-
-st.markdown(
-    """
-    <div class="footer">
-        <strong>ResumeLens</strong> · Formal Language-Based Resume Screening
-        <br>
-        Analysis based on the implemented extraction, normalization,
-        and classification pipeline.
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
