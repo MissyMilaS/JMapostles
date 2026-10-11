@@ -1,7 +1,21 @@
+
 import streamlit as st
 
 from src.classification.profile_automata import PROFILE_PATTERNS
 from src.pipeline import process_resume_pipeline
+
+
+# =========================================================
+# CONFIGURACIÓN
+# =========================================================
+
+GREEN = "#4E8252"
+DARK_GREEN = "#365C3A"
+DARK = "#26352A"
+MUTED = "#6F7D72"
+BORDER = "#E1E8E1"
+LIGHT_GREEN = "#F1F6F1"
+WHITE = "#FFFFFF"
 
 PROFILE_LABELS = {
     "FULL_STACK": "Full Stack Developer",
@@ -10,8 +24,6 @@ PROFILE_LABELS = {
     "DATA_ENGINEER": "Data Engineer",
 }
 
-GREEN = "#4E8252"
-
 st.set_page_config(
     page_title="ResumeLens",
     page_icon="🌿",
@@ -19,223 +31,267 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# -------------------- ESTILOS --------------------
+
+# =========================================================
+# ESTILOS VISUALES
+# =========================================================
+
 st.markdown(
-    """
+    f"""
     <style>
-    :root {
-        --rl-green: #4E8252;
-        --rl-dark: #24352A;
-        --rl-muted: #718078;
-        --rl-border: #E1E9E2;
-        --rl-light: #F5F8F5;
-    }
+    /* Fondo y tipografía general */
+    .stApp {{
+        background-color: #FBFCFB;
+        color: {DARK};
+    }}
 
-    .stApp {
-        background: #FBFCFB;
-        color: var(--rl-dark);
-    }
+    [data-testid="stHeader"] {{
+        background-color: #FBFCFB;
+    }}
 
-    [data-testid="stSidebar"] {
-        background: #F1F6F1;
-        border-right: 1px solid var(--rl-border);
-    }
+    .block-container {{
+        padding-top: 2.5rem;
+        padding-bottom: 3rem;
+        max-width: 1450px;
+    }}
 
-    [data-testid="stSidebar"] > div:first-child {
-        padding-top: 2rem;
-    }
+    /* Barra lateral */
+    [data-testid="stSidebar"] {{
+        background-color: {LIGHT_GREEN};
+        border-right: 1px solid {BORDER};
+    }}
 
-    .brand {
-        color: var(--rl-dark);
-        font-size: 1.65rem;
-        font-weight: 750;
+    [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p,
+    [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h1,
+    [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h2,
+    [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h3 {{
+        color: {DARK};
+    }}
+
+    .brand {{
+        font-size: 1.8rem;
+        font-weight: 800;
         letter-spacing: -1px;
+        color: {DARK};
         margin-bottom: 0;
-    }
+    }}
 
-    .brand span {
-        color: var(--rl-green);
-    }
+    .brand span {{
+        color: {GREEN};
+    }}
 
-    .eyebrow {
-        color: var(--rl-green);
-        font-size: .78rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-    }
-
-    .hero-title {
-        font-size: 2.6rem;
-        line-height: 1.15;
-        font-weight: 750;
-        letter-spacing: -1.5px;
-        color: var(--rl-dark);
-        margin-bottom: .35rem;
-    }
-
-    .hero-title span {
-        color: var(--rl-green);
-    }
-
-    .muted {
-        color: var(--rl-muted);
-        line-height: 1.65;
-    }
-
-    .section-heading {
-        font-size: 1.15rem;
-        font-weight: 700;
-        color: var(--rl-dark);
-        margin-bottom: .2rem;
-    }
-
-    .panel {
-        background: white;
-        border: 1px solid var(--rl-border);
-        border-radius: 15px;
-        padding: 1.25rem;
-        margin-bottom: 1rem;
-    }
-
-    .metric-label {
-        font-size: .82rem;
-        color: var(--rl-muted);
-        margin-bottom: .4rem;
-    }
-
-    .metric-value {
-        font-size: 1.45rem;
-        font-weight: 750;
-        color: var(--rl-dark);
-    }
-
-    .stage-number {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        background: #E5EFE6;
-        color: var(--rl-green);
-        font-weight: 750;
-        margin-right: .55rem;
-    }
-
-    .status {
-        border-radius: 10px;
-        padding: .85rem 1rem;
-        font-weight: 650;
-        margin: .7rem 0;
-    }
-
-    .status-ok {
-        color: #315F37;
-        background: #EDF6EE;
-        border: 1px solid #D0E5D2;
-    }
-
-    .status-no {
-        color: #984646;
-        background: #FFF1F0;
-        border: 1px solid #F1D4D1;
-    }
-
-    .small-note {
-        font-size: .82rem;
-        color: var(--rl-muted);
+    .sidebar-caption {{
+        font-size: 0.8rem;
+        color: {MUTED};
         line-height: 1.5;
-    }
+    }}
 
-    .stButton > button[kind="primary"],
-    .stFormSubmitButton > button[kind="primary"] {
-        background: var(--rl-green);
-        border: 1px solid var(--rl-green);
-        color: white;
-        border-radius: 9px;
-        min-height: 2.8rem;
-        font-weight: 650;
-    }
+    /* Encabezado principal */
+    .eyebrow {{
+        color: {GREEN};
+        font-size: 0.76rem;
+        font-weight: 750;
+        letter-spacing: 1.8px;
+        margin-bottom: 0.6rem;
+    }}
 
-    .stButton > button[kind="primary"]:hover,
-    .stFormSubmitButton > button[kind="primary"]:hover {
-        background: #3E6942;
-        border-color: #3E6942;
-        color: white;
-    }
+    .hero-title {{
+        color: {DARK};
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 800;
+        letter-spacing: -1.5px;
+        line-height: 1.15;
+        margin-bottom: 0.7rem;
+    }}
 
-    div[data-baseweb="select"] > div,
-    .stTextArea textarea {
-        border-radius: 9px;
-    }
+    .hero-title span {{
+        color: {GREEN};
+    }}
 
-    div[data-testid="stDataFrame"] {
-        border: 1px solid var(--rl-border);
+    .hero-description {{
+        color: {MUTED};
+        font-size: 1rem;
+        line-height: 1.7;
+        max-width: 780px;
+    }}
+
+    /* Títulos y textos */
+    h2, h3 {{
+        color: {DARK};
+    }}
+
+    [data-testid="stMarkdownContainer"] p {{
+        color: {DARK};
+    }}
+
+    .section-description {{
+        color: {MUTED};
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }}
+
+    /* Campos de entrada: tema claro */
+    .stTextArea textarea,
+    .stTextInput input {{
+        background-color: {WHITE} !important;
+        color: {DARK} !important;
+        border: 1px solid {BORDER} !important;
+        border-radius: 10px !important;
+    }}
+
+    .stTextArea textarea::placeholder {{
+        color: #8A968C !important;
+    }}
+
+    div[data-baseweb="select"] > div {{
+        background-color: {WHITE} !important;
+        color: {DARK} !important;
+        border-color: {BORDER} !important;
+        border-radius: 10px !important;
+    }}
+
+    /* Área de carga */
+    [data-testid="stFileUploader"] section {{
+        background-color: {WHITE} !important;
+        border: 1px dashed #B9CDBA !important;
+        border-radius: 10px !important;
+    }}
+
+    [data-testid="stFileUploader"] section,
+    [data-testid="stFileUploader"] section * {{
+        color: {DARK} !important;
+    }}
+
+    /* Botones */
+    .stFormSubmitButton button,
+    .stButton button {{
+        border-radius: 9px !important;
+        font-weight: 650 !important;
+        min-height: 2.7rem;
+    }}
+
+    .stFormSubmitButton button[kind="primary"],
+    .stButton button[kind="primary"] {{
+        background-color: {GREEN} !important;
+        border: 1px solid {GREEN} !important;
+        color: #FFFFFF !important;
+    }}
+
+    .stFormSubmitButton button[kind="primary"]:hover,
+    .stButton button[kind="primary"]:hover {{
+        background-color: {DARK_GREEN} !important;
+        border-color: {DARK_GREEN} !important;
+        color: #FFFFFF !important;
+    }}
+
+    /* Pestañas */
+    .stTabs [data-baseweb="tab-list"] {{
+        gap: 1rem;
+        border-bottom: 1px solid {BORDER};
+    }}
+
+    .stTabs [data-baseweb="tab"] {{
+        color: {MUTED};
+        font-weight: 600;
+    }}
+
+    .stTabs [aria-selected="true"] {{
+        color: {GREEN} !important;
+    }}
+
+    /* Tablas */
+    [data-testid="stDataFrame"] {{
+        border: 1px solid {BORDER};
         border-radius: 10px;
         overflow: hidden;
-    }
+    }}
 
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 1rem;
-        border-bottom: 1px solid var(--rl-border);
-    }
+    /* Mensajes y pie de página */
+    [data-testid="stAlert"] {{
+        border-radius: 10px;
+    }}
 
-    .stTabs [data-baseweb="tab"] {
-        color: var(--rl-muted);
-        font-weight: 600;
-    }
+    .footer {{
+        margin-top: 2.5rem;
+        padding-top: 1.2rem;
+        border-top: 1px solid {BORDER};
+        color: {MUTED};
+        font-size: 0.8rem;
+        line-height: 1.7;
+    }}
 
-    .stTabs [aria-selected="true"] {
-        color: var(--rl-green) !important;
-    }
-
-    .footer {
-        color: var(--rl-muted);
-        font-size: .78rem;
-        padding-top: 1.5rem;
-        border-top: 1px solid var(--rl-border);
-        margin-top: 2rem;
-    }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
-# -------------------- BARRA LATERAL --------------------
+
+# =========================================================
+# BARRA LATERAL
+# =========================================================
+
 with st.sidebar:
     st.markdown(
         '<p class="brand">Resume<span>Lens</span></p>',
         unsafe_allow_html=True,
     )
-    st.caption("Formal Language-Based Resume Screening")
-    st.divider()
 
+    st.markdown(
+        '<p class="sidebar-caption">'
+        "Formal Language-Based Resume Screening"
+        "</p>",
+        unsafe_allow_html=True,
+    )
+
+    st.divider()
     st.markdown("### Workflow")
 
     stages = [
-        ("01", "Extract", "Find résumé information using regex."),
-        ("02", "Normalize", "Standardize qualifications."),
-        ("03", "Classify", "Recognize formal profile patterns."),
-        ("04", "Validate", "Grammar validation — coming soon."),
+        ("01", "Extraction", "Find résumé information."),
+        ("02", "Normalization", "Standardize qualifications."),
+        ("03", "Classification", "Recognize profile patterns."),
+        ("04", "Validation", "Grammar validation pending."),
     ]
 
     for number, title, description in stages:
+        if number == "04":
+            circle_background = "#E1E9E1"
+            circle_color = MUTED
+        else:
+            circle_background = GREEN
+            circle_color = WHITE
+
         st.markdown(
             f"""
-            <div style="display:flex; gap:12px; margin:18px 0;">
+            <div style="
+                display:flex;
+                align-items:flex-start;
+                gap:12px;
+                margin:20px 0;
+            ">
                 <div style="
-                    min-width:32px;height:32px;border-radius:50%;
-                    display:flex;align-items:center;justify-content:center;
-                    background:{'#4E8252' if number != '04' else '#E6ECE6'};
-                    color:{'white' if number != '04' else '#718078'};
-                    font-weight:700;font-size:.8rem;">
-                    {number}
-                </div>
+                    min-width:34px;
+                    height:34px;
+                    border-radius:50%;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    background:{circle_background};
+                    color:{circle_color};
+                    font-weight:750;
+                    font-size:0.8rem;
+                ">{number}</div>
                 <div>
-                    <div style="font-weight:700;color:#24352A">{title}</div>
-                    <div style="font-size:.78rem;color:#718078;
-                                line-height:1.5">{description}</div>
+                    <div style="
+                        font-weight:700;
+                        color:{DARK};
+                        margin:2px 0 5px;
+                    ">{title}</div>
+                    <div style="
+                        font-size:0.78rem;
+                        color:{MUTED};
+                        line-height:1.5;
+                    ">{description}</div>
                 </div>
             </div>
             """,
@@ -243,38 +299,59 @@ with st.sidebar:
         )
 
     st.divider()
-    st.caption("Built with Python and Streamlit")
 
-# -------------------- ENCABEZADO --------------------
+    st.markdown(
+        '<p class="sidebar-caption">'
+        "Powered by Python and Streamlit."
+        "</p>",
+        unsafe_allow_html=True,
+    )
+
+
+# =========================================================
+# ENCABEZADO
+# =========================================================
+
 st.markdown(
     """
     <div class="eyebrow">INTELLIGENT RESUME ANALYSIS</div>
-    <div class="hero-title">Understand every <span>résumé.</span></div>
-    <p class="muted">
+    <div class="hero-title">
+        Understand every <span>résumé.</span>
+    </div>
+    <div class="hero-description">
         Extract information, normalize qualifications, and recognize
-        formal professional-profile patterns.
-    </p>
+        formal professional-profile patterns through a structured pipeline.
+    </div>
     """,
     unsafe_allow_html=True,
 )
 
 st.write("")
 
-# -------------------- FORMULARIO --------------------
-with st.container(border=True):
-    left, right = st.columns([1.5, 1], gap="large")
 
+# =========================================================
+# FORMULARIO
+# IMPORTANTE: el botón debe permanecer dentro de st.form()
+# =========================================================
+
+with st.container(border=True):
     with st.form("resume_form"):
+        left, right = st.columns([1.45, 1], gap="large")
+
         with left:
             st.markdown("### Upload résumé")
-            st.caption(
-                "Paste the résumé text or upload a plain-text file."
+
+            st.markdown(
+                '<p class="section-description">'
+                "Upload a TXT file or paste the résumé content below."
+                "</p>",
+                unsafe_allow_html=True,
             )
 
             uploaded_file = st.file_uploader(
                 "Upload a .txt file",
                 type=["txt"],
-                help="Only plain-text .txt files are supported.",
+                help="Only plain-text TXT files are supported.",
             )
 
             resume_input = st.text_area(
@@ -284,14 +361,21 @@ with st.container(border=True):
                     "Paste the résumé text here...\n\n"
                     "Example: Python, JavaScript, React, Node.js..."
                 ),
-                help="The text is processed by the existing pipeline.",
+                help=(
+                    "The content will be processed by the "
+                    "extraction, normalization, and classification stages."
+                ),
             )
 
         with right:
             st.markdown("### Target profile")
-            st.caption(
-                "Choose the profile whose formal qualification pattern "
-                "you want to evaluate."
+
+            st.markdown(
+                '<p class="section-description">'
+                "Select the professional profile whose qualification "
+                "pattern you want to evaluate."
+                "</p>",
+                unsafe_allow_html=True,
             )
 
             selected_profile = st.selectbox(
@@ -300,23 +384,14 @@ with st.container(border=True):
                 format_func=lambda profile: PROFILE_LABELS[profile],
             )
 
-            st.markdown(
-                """
-                <div style="
-                    background:#F1F6F1;border:1px solid #E1E9E2;
-                    padding:14px;border-radius:10px;margin:10px 0 20px;">
-                    <div style="font-weight:650;color:#315F37">
-                        Profile-based analysis
-                    </div>
-                    <div style="font-size:.83rem;color:#718078;
-                                line-height:1.5;margin-top:5px">
-                        The selected profile determines the qualification
-                        sequence used for pattern recognition.
-                    </div>
-                </div>
-                """,
-                unsafe_allow_html=True,
+            st.write("")
+
+            st.info(
+                "The selected profile determines the qualification "
+                "sequence used for pattern recognition."
             )
+
+            st.write("")
 
             submitted = st.form_submit_button(
                 "Analyze résumé  →",
@@ -324,21 +399,39 @@ with st.container(border=True):
                 use_container_width=True,
             )
 
-# -------------------- PROCESAMIENTO --------------------
+
+# =========================================================
+# PROCESAMIENTO
+# =========================================================
+
 if submitted:
     text_to_process = resume_input.strip()
 
+    # Si se adjunta un TXT válido con contenido, se usa ese texto.
     if uploaded_file is not None:
         try:
             file_text = uploaded_file.getvalue().decode("utf-8-sig").strip()
+
             if file_text:
                 text_to_process = file_text
+            else:
+                st.warning(
+                    "The uploaded TXT file is empty. "
+                    "Please provide résumé content."
+                )
+                st.stop()
+
         except UnicodeDecodeError:
-            st.error("The TXT file must use UTF-8 text encoding.")
+            st.error(
+                "The TXT file could not be decoded as UTF-8. "
+                "Please save it using UTF-8 encoding and try again."
+            )
             st.stop()
 
     if not text_to_process:
-        st.warning("Paste résumé text or upload a TXT file before processing.")
+        st.warning(
+            "Enter résumé text or upload a TXT file before processing."
+        )
     else:
         try:
             with st.spinner("Analyzing résumé..."):
@@ -346,105 +439,107 @@ if submitted:
                     text_to_process,
                     profile=selected_profile,
                 )
+
             st.session_state["resume_result"] = result
             st.session_state["resume_profile"] = selected_profile
-            st.success("Résumé analysis completed.")
-        except Exception as error:
-            st.error("The résumé could not be processed.")
-            st.exception(error)
 
-# -------------------- RESULTADOS --------------------
+            st.success("Résumé analysis completed successfully.")
+
+        except Exception:
+            st.error(
+                "The résumé could not be processed. "
+                "Check the terminal for the technical error details."
+            )
+            st.exception(__import__("sys").exc_info()[1])
+
+
+# =========================================================
+# RESULTADOS
+# =========================================================
+
 if "resume_result" in st.session_state:
     result = st.session_state["resume_result"]
     result_profile = st.session_state["resume_profile"]
 
     st.write("")
+    st.markdown("## Analysis results")
+
     st.markdown(
-        """
-        <div class="section-heading">Analysis results</div>
-        <p class="muted">
-            Explore the information returned by each stage of the pipeline.
-        </p>
-        """,
+        '<p class="section-description">'
+        "Review the information returned by each stage of the pipeline."
+        "</p>",
         unsafe_allow_html=True,
     )
 
-    # Summary metrics
-    m1, m2, m3 = st.columns(3)
+    # -------------------- RESUMEN --------------------
 
-    with m1:
-        st.markdown(
-            f"""
-            <div class="panel">
-                <div class="metric-label">Candidate</div>
-                <div class="metric-value" style="font-size:1.15rem">
-                    {result['candidate_name']}
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+    metric1, metric2, metric3 = st.columns(3, gap="medium")
 
-    with m2:
-        st.markdown(
-            f"""
-            <div class="panel">
-                <div class="metric-label">Extracted qualifications</div>
-                <div class="metric-value">
-                    {len(result['extracted_skills'])}
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+    with metric1:
+        with st.container(border=True):
+            st.caption("Candidate")
+            st.markdown(f"**{result['candidate_name']}**")
 
-    with m3:
-        st.markdown(
-            f"""
-            <div class="panel">
-                <div class="metric-label">Normalized qualifications</div>
-                <div class="metric-value">
-                    {len(result['normalized_skills'])}
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+    with metric2:
+        with st.container(border=True):
+            st.caption("Extracted qualifications")
+            st.markdown(f"## {len(result['extracted_skills'])}")
+
+    with metric3:
+        with st.container(border=True):
+            st.caption("Normalized qualifications")
+            st.markdown(f"## {len(result['normalized_skills'])}")
+
+    st.write("")
+
+    # -------------------- PESTAÑAS --------------------
 
     extraction_tab, normalization_tab, classification_tab = st.tabs(
         [
-            "01  Extraction",
-            "02  Normalization",
-            "03  Profile recognition",
+            "01 · Extraction",
+            "02 · Normalization",
+            "03 · Profile recognition",
         ]
     )
 
-    with extraction_tab:
-        st.markdown("### Extracted information")
+    # =====================================================
+    # ETAPA 1: EXTRACCIÓN
+    # =====================================================
 
-        info_left, info_right = st.columns(2)
+    with extraction_tab:
+        st.subheader("Extracted information")
+
+        info_left, info_right = st.columns(2, gap="large")
 
         with info_left:
             st.markdown("**Candidate**")
             st.write(result["candidate_name"])
+
             st.markdown("**Experience**")
             st.write(result["experience"])
 
         with info_right:
-            contact = result["contact_info"]
-            st.markdown("**Email**")
-            st.write(contact["email"])
-            st.markdown("**Phone**")
-            st.write(contact["phone"])
+            contact_info = result["contact_info"]
 
+            st.markdown("**Email**")
+            st.write(contact_info["email"])
+
+            st.markdown("**Phone**")
+            st.write(contact_info["phone"])
+
+        st.divider()
         st.markdown("#### Extracted qualifications")
 
         if result["extracted_skills"]:
             st.dataframe(
                 [
-                    {"#": index, "Qualification": skill}
+                    {
+                        "No.": index,
+                        "Qualification": skill,
+                    }
                     for index, skill in enumerate(
-                        result["extracted_skills"], start=1
+                        result["extracted_skills"],
+                        start=1,
                     )
                 ],
                 use_container_width=True,
@@ -453,11 +548,19 @@ if "resume_result" in st.session_state:
         else:
             st.info("No supported qualifications were extracted.")
 
+    # =====================================================
+    # ETAPA 2: NORMALIZACIÓN
+    # =====================================================
+
     with normalization_tab:
-        st.markdown("### Canonical qualifications")
-        st.caption(
-            "Qualification variants are normalized and ordered for "
+        st.subheader("Canonical qualifications")
+
+        st.markdown(
+            '<p class="section-description">'
+            "Qualifications are standardized and ordered for "
             f"{PROFILE_LABELS[result_profile]}."
+            "</p>",
+            unsafe_allow_html=True,
         )
 
         if result["normalized_skills"]:
@@ -468,7 +571,8 @@ if "resume_result" in st.session_state:
                         "Canonical qualification": skill,
                     }
                     for index, skill in enumerate(
-                        result["normalized_skills"], start=1
+                        result["normalized_skills"],
+                        start=1,
                     )
                 ],
                 use_container_width=True,
@@ -477,33 +581,27 @@ if "resume_result" in st.session_state:
         else:
             st.info("There are no known qualifications to normalize.")
 
+    # =====================================================
+    # ETAPA 3: CLASIFICACIÓN
+    # =====================================================
+
     with classification_tab:
-        st.markdown("### Qualification pattern recognition")
+        st.subheader("Qualification pattern recognition")
 
         selected_result = result["classification"]
 
         if selected_result == "ACCEPTED":
-            st.markdown(
-                f"""
-                <div class="status status-ok">
-                    ✓ &nbsp; {PROFILE_LABELS[result_profile]}:
-                    {selected_result}
-                </div>
-                """,
-                unsafe_allow_html=True,
+            st.success(
+                f"{PROFILE_LABELS[result_profile]} pattern: "
+                f"{selected_result}"
             )
         else:
-            st.markdown(
-                f"""
-                <div class="status status-no">
-                    ! &nbsp; {PROFILE_LABELS[result_profile]}:
-                    {selected_result}
-                </div>
-                """,
-                unsafe_allow_html=True,
+            st.warning(
+                f"{PROFILE_LABELS[result_profile]} pattern: "
+                f"{selected_result}"
             )
 
-        st.markdown("#### All supported profiles")
+        st.markdown("#### Results for all supported profiles")
 
         st.dataframe(
             [
@@ -519,16 +617,22 @@ if "resume_result" in st.session_state:
         )
 
         st.caption(
-            "These results indicate whether the qualification sequence "
-            "matches a formal pattern. They are not candidate rankings "
-            "or hiring decisions."
+            "A result indicates whether the qualification sequence "
+            "matches a formal pattern. It is not a candidate ranking "
+            "or a hiring decision."
         )
+
+
+# =========================================================
+# PIE DE PÁGINA
+# =========================================================
 
 st.markdown(
     """
     <div class="footer">
-        ResumeLens · Formal Language-Based Resume Screening<br>
-        Analysis is based on the implemented extraction, normalization,
+        <strong>ResumeLens</strong> · Formal Language-Based Resume Screening
+        <br>
+        Analysis based on the implemented extraction, normalization,
         and classification pipeline.
     </div>
     """,
