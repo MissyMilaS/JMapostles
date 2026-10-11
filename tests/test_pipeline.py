@@ -22,6 +22,7 @@ Technical Skills: Git, NodeJS, JS, Postgres, React.js."""
         )
         self.assertEqual(result["classification"], "ACCEPTED")
         self.assertEqual(result["profile_results"]["FULL_STACK"], "ACCEPTED")
+        self.assertEqual(result["profile_results"]["ML_ENGINEER"], "REJECTED")
 
     def test_pipeline_sorts_for_machine_learning_profile(self):
         resume = """Mary Jane Watson
@@ -37,6 +38,37 @@ Technical Skills: Git, TensorFlow, Python, Pandas, Postgres."""
         )
         self.assertEqual(result["classification"], "ACCEPTED")
         self.assertEqual(result["profile_results"]["ML_ENGINEER"], "ACCEPTED")
+        self.assertEqual(result["profile_results"]["FULL_STACK"], "REJECTED")
+
+    def test_devops_profile_is_sorted_and_classified(self):
+        resume = """Jordan Lee
+WORK EXPERIENCE
+4 years of experience managing cloud infrastructure.
+Technical Skills: Git, Kubernetes, AWS, Python, Docker."""
+
+        result = process_resume_pipeline(resume, profile="DEVOPS_ENGINEER")
+
+        self.assertEqual(
+            result["normalized_skills"],
+            ["PYTHON", "DOCKER", "KUBERNETES", "AWS", "GIT"],
+        )
+        self.assertEqual(result["classification"], "ACCEPTED")
+        self.assertEqual(result["profile_results"]["DEVOPS_ENGINEER"], "ACCEPTED")
+
+    def test_data_profile_is_sorted_and_classified(self):
+        resume = """Ada Lovelace
+WORK EXPERIENCE
+3 years of experience building data pipelines.
+Technical Skills: Git, Airflow, Postgres, Spark, Python."""
+
+        result = process_resume_pipeline(resume, profile="DATA_ENGINEER")
+
+        self.assertEqual(
+            result["normalized_skills"],
+            ["PYTHON", "SPARK", "AIRFLOW", "POSTGRESQL", "GIT"],
+        )
+        self.assertEqual(result["classification"], "ACCEPTED")
+        self.assertEqual(result["profile_results"]["DATA_ENGINEER"], "ACCEPTED")
 
 
 if __name__ == "__main__":

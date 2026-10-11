@@ -2,9 +2,9 @@
 
 ## Purpose and interface
 
-This stage receives qualification strings extracted from a résumé and maps
+This stage receives qualification strings extracted from a resume and maps
 known spelling variants to canonical tokens. It does not extract text from a
-résumé or decide whether the candidate matches a profile; those tasks belong to
+resume or decide whether the candidate matches a profile; those tasks belong to
 Stages 1 and 3.
 
 The implementation is in `src/normalization/fst_normalizer.py`:
