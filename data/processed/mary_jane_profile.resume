@@ -1,0 +1,18 @@
+candidate "MARY JANE WATSON" {
+    contact {
+        email: "mj.watson@data-labs.com"
+        phone: "+1 (555) 018-9922"
+    }
+    experience {
+        role: "developing predictive models and data-processing pipelines. Proficient in Python, machine learning frameworks, feature engineering, and relational data querying." years: 2
+    }
+    skills {
+        SQL, GIT, GITHUB, PYTHON, SCIKIT_LEARN, TENSORFLOW, PANDAS, NUMPY
+    }
+    classification {
+        FULL_STACK_DEVELOPER: REJECTED
+        MACHINE_LEARNING_ENGINEER: ACCEPTED
+        SOFTWARE_ENGINEER: REJECTED
+        DATA_ENGINEER: REJECTED
+    }
+}

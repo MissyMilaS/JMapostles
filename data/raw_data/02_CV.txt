@@ -1,0 +1,15 @@
+PETER PARKER
+Email: peter.parker@dailybugle.com | Phone: +1 (212) 555-0199 | Location: New York, NY
+GitHub: github.com/spidey-dev | LinkedIn: linkedin.com/in/peter-parker-web
+
+PROFESSIONAL SUMMARY
+Innovative Full Stack Engineer with 2 years of experience creating dynamic web applications. Strong expertise in JavaScript ecosystems, frontend frameworks, and server-side integration with relational databases.
+
+WORK EXPERIENCE
+Software Developer | Oscorp Web Labs | Mar 2024 – Present
+• Developed single-page applications using React.js and Redux for interactive data management.
+• Built RESTful microservices with NodeJS and Express.js to process real-time user requests.
+• Managed database migrations and indexing in Postgres, improving read efficiency by 20%.
+
+TECHNICAL SKILLS
+• Core Skills: JS, React.js, NodeJS, Postgres, Git, REST APIs

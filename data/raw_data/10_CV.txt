@@ -1,0 +1,25 @@
+GWEN STACY
+Email: gwen.stacy@oscorp-research.com | Phone: +1 (212) 555-0174 | Location: New York, NY
+GitHub: github.com/gstacy-ai | LinkedIn: linkedin.com/in/gwen-stacy-genomics
+
+PROFESSIONAL SUMMARY
+Machine Learning Engineer with 2 years of hands-on experience building computer vision, natural language processing, and predictive modeling applications. Strong foundation in data analysis with Python, deep learning framework implementation, and relational data pipeline extraction.
+
+WORK EXPERIENCE
+Associate ML Engineer | Oscorp Genomics Division | Jan 2024 – Present
+• Developed predictive regression models using Scikit-learn and Pandas to accelerate sequence pattern recognition.
+• Implemented convolutional neural networks in TensorFlow and Keras to process biological imaging data.
+• Extracted and transformed experimental metrics from enterprise databases using structured SQL queries.
+
+Data Analyst Intern | Empire State Analytics | May 2022 – Dec 2023
+• Processed and visualized exploratory dataset distributions using NumPy, Pandas, and Matplotlib.
+• Documented code workflows and versioning across team projects using Git.
+
+TECHNICAL SKILLS
+• Core Programming: Python, SQL
+• Data Analysis: Pandas, NumPy, Scikit-learn
+• AI & Frameworks: TensorFlow, Keras, PyTorch
+• Databases & Tools: SQL, PostgreSQL, Git, Linux
+
+EDUCATION
+Bachelor of Science in Bioengineering & Computer Science | Empire State University, 2023

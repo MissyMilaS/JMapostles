@@ -1,0 +1,1 @@
+Sarah Rodriguez | 5 years of experience building big data architectures, real-time streaming pipelines, and enterprise data warehouses. | Technical Skills: Spark, Snowflake, Airflow, Kafka, SQL, python, PostgreSQL, Git.

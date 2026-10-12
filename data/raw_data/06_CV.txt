@@ -1,0 +1,19 @@
+SARAH RODRIGUEZ
+Email: sarahrodriguez@gmail.com 
+Phone: +57 31767354 
+Location: Mexico Tijuana
+GitHub: github.com/SarahRoAr
+LinkedIn: linkedin.com/in/srodriguez
+
+PROFESSIONAL SUMMARY
+Data Engineer with 5 years of experience building big data architectures, real-time streaming pipelines, and enterprise data warehouses.
+6 years on fullstack development
+
+WORK EXPERIENCE
+Data Engineer | Analytical Engine Corp | May 2023 – Present
+• Designed distributed ETL data pipelines using PySpark and Apache Spark for high-volume data ingestion.
+• Managed enterprise data warehousing solutions in Snowflake and orchestrated workflows with Apache Airflow.
+• Streamed event data using Apache Kafka and queried analytical datasets using complex SQL queries.
+
+TECHNICAL SKILLS
+• Big Data & Databases: python, java, PostgreSQL, MongoDB, Kafka, SQL, Git, Dart

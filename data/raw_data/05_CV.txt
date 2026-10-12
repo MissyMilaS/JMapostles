@@ -1,0 +1,15 @@
+ADA LOVELACE
+Email: ada.lovelace@analytics.org | Phone: +44 20 7946 0919 | Location: London, UK
+GitHub: github.com/alovelace | LinkedIn: linkedin.com/in/ada-lovelace
+
+PROFESSIONAL SUMMARY
+Data Engineer with 3 years of experience building big data architectures, real-time streaming pipelines, and enterprise data warehouses.
+
+WORK EXPERIENCE
+Data Engineer | Analytical Engine Corp | May 2023 – Present
+• Designed distributed ETL data pipelines using PySpark and Apache Spark for high-volume data ingestion.
+• Managed enterprise data warehousing solutions in Snowflake and orchestrated workflows with Apache Airflow.
+• Streamed event data using Apache Kafka and queried analytical datasets using complex SQL queries.
+
+TECHNICAL SKILLS
+• Big Data & Databases: Python, Spark, Snowflake, Airflow, Kafka, SQL, Git

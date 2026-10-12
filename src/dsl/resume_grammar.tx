@@ -1,0 +1,32 @@
+CandidateProfile:
+    'CandidateProfile' '{'
+    'name' '=' name=STRING
+    'contact' '=' contact=Contact
+    'experience_years' '=' experience_years=INT
+    ('education' '=' '[' education*=EducationRecord[','] ']')?
+    ('experience' '=' '[' experience*=ExperienceRecord[','] ']')?
+    'qualifications' '=' '[' qualifications*=STRING[','] ']'
+    'evaluations' '=' '[' evaluations*=Evaluation[','] ']'
+    '}';
+
+Contact:
+    '{'
+    'email' '=' email=STRING
+    ('phone' '=' phone=STRING)?
+    '}';
+
+EducationRecord:
+    '{' 'degree' '=' degree=STRING '}';
+
+ExperienceRecord:
+    '{' 'company' '=' company=STRING
+    ','? 'title' '=' title=STRING '}';
+
+Evaluation:
+    profile=ProfileName ':' status=EvaluationStatus;
+
+ProfileName:
+    'FULL_STACK' | 'ML_ENGINEER' | 'DEVOPS_ENGINEER' | 'DATA_ENGINEER';
+
+EvaluationStatus:
+    'ACCEPTED' | 'REJECTED';

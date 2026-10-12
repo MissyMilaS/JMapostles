@@ -1,0 +1,47 @@
+Resume:
+    'candidate' name=STRING '{'
+        contact=ContactDetails
+        experience=ExperienceSection?
+        skills=SkillsSection
+        classifications=ClassificationSection
+    '}';
+
+ContactDetails:
+    'contact' '{'
+        'email' ':' email=STRING
+        'phone' ':' phone=STRING
+    '}';
+
+ExperienceSection:
+    'experience' '{'
+        entries+=ExperienceEntry
+    '}';
+
+ExperienceEntry:
+    'role' ':' role=STRING 'years' ':' years=INT
+;
+
+SkillsSection:
+    'skills' '{'
+        skills+=ID[',']
+    '}';
+
+ClassificationSection:
+    'classification' '{'
+        evaluations+=ProfileEvaluation
+    '}';
+
+ProfileEvaluation:
+    profile=ProfileName ':' status=Status
+;
+
+ProfileName:
+    'FULL_STACK_DEVELOPER'
+    | 'MACHINE_LEARNING_ENGINEER'
+    | 'SOFTWARE_ENGINEER'
+    | 'DATA_ENGINEER'
+;
+
+Status:
+    'ACCEPTED' | 'REJECTED'
+;

@@ -1,0 +1,18 @@
+candidate "WEDNESDAY ADDAMS" {
+    contact {
+        email: "wednesday.addams@nevermore.edu"
+        phone: "+1 (555) 019-2834"
+    }
+    experience {
+        role: "designing, developing, and deploying scalable web applications. Adept at building modern, responsive user interfaces as well as robust server-side APIs and relational database architectures." years: 0
+    }
+    skills {
+        POSTGRESQL, GIT, GITHUB, REACT, NODE_JS, REST_API, JAVASCRIPT, TYPESCRIPT
+    }
+    classification {
+        FULL_STACK_DEVELOPER: ACCEPTED
+        MACHINE_LEARNING_ENGINEER: REJECTED
+        SOFTWARE_ENGINEER: REJECTED
+        DATA_ENGINEER: REJECTED
+    }
+}
