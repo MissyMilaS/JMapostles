@@ -1,4 +1,4 @@
-[10/10, 11:25 p. m.] Sarah Rodriguez sistemas: flowchart LR
+
     q0((q0)) -->|"j / ε"| q1((q1))
     q1 -->|"s / ε"| q2((q2))
     q2 -->|"ε / JAVASCRIPT"| qf(((qf)))
@@ -12,8 +12,7 @@
     q9 -->|"p / ε"| q10((q10))
     q10 -->|"t / ε"| q11((q11))
     q11 -->|"ε / JAVASCRIPT"| qf
-[10/10, 11:25 p. m.] Sarah Rodriguez sistemas: JavaScript
-[10/10, 11:26 p. m.] Sarah Rodriguez sistemas: flowchart LR
+
     q0((q0)) -->|"t / ε"| q1((q1))
     q1 -->|"s / ε"| q2((q2))
     q2 -->|"ε / TYPESCRIPT"| qf(((qf)))
@@ -27,8 +26,7 @@
     q9 -->|"p / ε"| q10((q10))
     q10 -->|"t / ε"| q11((q11))
     q11 -->|"ε / TYPESCRIPT"| qf
-[10/10, 11:26 p. m.] Sarah Rodriguez sistemas: TypeScript
-[10/10, 11:26 p. m.] Sarah Rodriguez sistemas: flowchart LR
+
     q0((q0)) -->|"r / ε"| q1((q1))
     q1 -->|"e / ε"| q2((q2))
     q2 -->|"a / ε"| q3((q3))
@@ -42,8 +40,7 @@
     q5 -->|"j / ε"| q9((q9))
     q9 -->|"s / ε"| q10((q10))
     q10 -->|"ε / REACT"| qf
-[10/10, 11:26 p. m.] Sarah Rodriguez sistemas: React
-[10/10, 11:27 p. m.] Sarah Rodriguez sistemas: flowchart LR
+
     q0((q0)) -->|"n / ε"| q1((q1))
     q1 -->|"o / ε"| q2((q2))
     q2 -->|"d / ε"| q3((q3))
@@ -61,8 +58,7 @@
     q4 -->|"_"| q11((q11))
     q11 -->|"j / ε"| q12((q12))
     q12 -->|"s / ε"| qf
-[10/10, 11:27 p. m.] Sarah Rodriguez sistemas: Node.js
-[10/10, 11:27 p. m.] Sarah Rodriguez sistemas: flowchart LR
+
     q0((q0)) -->|"p / ε"| q1((q1))
     q1 -->|"o / ε"| q2((q2))
     q2 -->|"s / ε"| q3((q3))
@@ -75,8 +71,7 @@
     q8 -->|"q / ε"| q9((q9))
     q9 -->|"l / ε"| q10((q10))
     q10 -->|"ε / POSTGRESQL"| qf
-[10/10, 11:27 p. m.] Sarah Rodriguez sistemas: PostgreSQL
-[10/10, 11:27 p. m.] Sarah Rodriguez sistemas: flowchart LR
+
     q0((q0)) -->|"s / ε"| q1((q1))
     q1 -->|"k / ε"| q2((q2))
     q2 -->|"l / ε"| q3((q3))
@@ -99,8 +94,7 @@
     q16 -->|"r / ε"| q17((q17))
     q17 -->|"n / ε"| q18((q18))
     q18 -->|"ε / SCIKIT_LEARN"| qf
-[10/10, 11:27 p. m.] Sarah Rodriguez sistemas: Scikit-learn
-[10/10, 11:28 p. m.] Sarah Rodriguez sistemas: flowchart LR
+
     q0((q0)) -->|"t / ε"| q1((q1))
     q1 -->|"e / ε"| q2((q2))
     q2 -->|"n / ε"| q3((q3))
@@ -114,8 +108,7 @@
     q9 -->|"o / ε"| q10((q10))
     q10 -->|"w / ε"| q11((q11))
     q11 -->|"ε / TENSORFLOW"| qf(((qf)))
-[10/10, 11:28 p. m.] Sarah Rodriguez sistemas: TensorFlow
-[10/10, 11:28 p. m.] Sarah Rodriguez sistemas: flowchart LR
+
     q0((q0)) -->|"p / ε"| q1((q1))
     q1 -->|"y / ε"| q2((q2))
     q2 -->|"t / ε"| q3((q3))
@@ -126,8 +119,7 @@
     q6 -->|"c / ε"| q7((q7))
     q7 -->|"h / ε"| q8((q8))
     q8 -->|"ε / PYTORCH"| qf(((qf)))
-[10/10, 11:28 p. m.] Sarah Rodriguez sistemas: PyTorch
-[10/10, 11:28 p. m.] Sarah Rodriguez sistemas: flowchart LR
+
     q0((q0)) -->|"g / ε"| q1((q1))
     q1 -->|"i / ε"| q2((q2))
     q2 -->|"t / ε"| q3((q3))
@@ -145,4 +137,4 @@
     q13 -->|"n / ε"| q14((q14))
     q14 -->|"s / ε"| q15((q15))
     q15 -->|"ε / GITHUB_ACTIONS"| qf(((qf)))
-[10/10, 11:29 p. m.] Sarah Rodriguez sistemas: GitHub Actions
+
